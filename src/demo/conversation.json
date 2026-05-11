@@ -1,0 +1,86 @@
+[
+  {
+    "role": "user",
+    "content": "Refactor `src/api/client.ts` to handle retries and surface API errors as a typed exception. Keep the public exports stable."
+  },
+  {
+    "role": "assistant",
+    "content": "I will start by reading the current `client.ts` to understand the structure, then introduce a typed `ApiError` and a small retry wrapper.\n\nBefore I touch any code, a few things I want to verify up front:\n\n1. **Public surface area.** The user explicitly asked to keep the public exports stable. Anything currently re-exported from `src/api/index.ts` needs to keep its current types and call signature. If `ApiClient.fetch` was returning `Promise<any>`, I should keep that loose return type at the boundary even if I tighten internally — narrowing a public return type is technically a breaking change for callers that relied on the looseness.\n\n2. **Idempotency assumptions.** A retry wrapper must not blindly retry POSTs. The simplest first cut is to wrap only the `fetch` call but only retry on networking errors (TypeError) and `5xx`/`429` responses, which are safe to retry for any HTTP method on the assumption the server hasn t partially applied the request. For full safety the call sites would need to pass an explicit `idempotent: true` flag, but that is a larger change and not what the user asked for.\n\n3. **Error shape.** I will introduce `ApiError extends Error` with `status: number` and `path: string` so call sites can pattern-match. I will *not* throw it from the inner fetch; the wrapper catches the raw failure and rethrows as `ApiError` so the public type contract is one error class instead of TypeError vs. Response vs. SyntaxError-from-json.\n\n4. **Existing tests.** Before refactoring I want to see what the test suite currently asserts about error behavior. If a test expects a raw `TypeError` to propagate, I will need to update it. If tests are weak, I will mention it but not block.\n\nMy plan, in order: read the current client, locate the call sites with grep, apply a `str_replace` that keeps the public API but routes through `this.retry`, then run the test suite to see what breaks. If the tests fail I will iterate.",
+    "tool_calls": [
+      {
+        "id": "call_read_1",
+        "type": "function",
+        "function": {
+          "name": "read_file",
+          "arguments": "{\"path\":\"src/api/client.ts\"}"
+        }
+      }
+    ]
+  },
+  {
+    "role": "tool",
+    "tool_call_id": "call_read_1",
+    "content": "export class ApiClient {\n  constructor(private baseUrl: string) {}\n\n  async ping() {\n    return \"ok\";\n  }\n\n  async fetch(path: string) {\n    const r = await fetch(this.baseUrl + path);\n    return r.json();\n  }\n}\n"
+  },
+  {
+    "role": "assistant",
+    "content": "Got it. Three methods, one outbound `fetch`. Before I refactor, let me locate the call sites so I can tell whether wrapping the inner call is sufficient.",
+    "tool_calls": [
+      {
+        "id": "call_grep_1",
+        "type": "function",
+        "function": {
+          "name": "grep",
+          "arguments": "{\"pattern\":\"client.fetch\",\"path\":\"src/\"}"
+        }
+      }
+    ]
+  },
+  {
+    "role": "tool",
+    "tool_call_id": "call_grep_1",
+    "content": "{\"totalMatches\":3,\"totalFiles\":3,\"matches\":[{\"file\":\"src/App.tsx\",\"lines\":[{\"lineNo\":22,\"text\":\"  const data = await client.fetch(\\\"/api/items\\\");\"}]},{\"file\":\"src/hooks/useResource.ts\",\"lines\":[{\"lineNo\":18,\"text\":\"    const r = await client.fetch(url);\"}]},{\"file\":\"src/services/sync.ts\",\"lines\":[{\"lineNo\":41,\"text\":\"  const next = await client.fetch(`/api/sync/${cursor}`);\"}]}]}"
+  },
+  {
+    "role": "assistant",
+    "content": "Good — three call sites, all just doing `await client.fetch(path)`. Wrapping the inner call keeps them unchanged. Applying the refactor now:\n\nI am going to make two small structural changes in one shot — wrap the inner `fetch` in `this.retry(...)` and throw an `ApiError` on non-2xx responses. The retry helper will live as a private method on `ApiClient` since the user wants the public exports stable. The `ApiError` class will be exported, since callers should be able to type-narrow on it.",
+    "tool_calls": [
+      {
+        "id": "call_replace_1",
+        "type": "function",
+        "function": {
+          "name": "str_replace",
+          "arguments": "{\"path\":\"src/api/client.ts\",\"old_str\":\"  async fetch(path: string) {\\n    const r = await fetch(this.baseUrl + path);\\n    return r.json();\\n  }\",\"new_str\":\"  async fetch(path: string) {\\n    const r = await this.retry(() => fetch(this.baseUrl + path));\\n    if (!r.ok) throw new ApiError(r.status, path);\\n    return r.json() as Promise<unknown>;\\n  }\"}"
+        }
+      }
+    ]
+  },
+  {
+    "role": "tool",
+    "tool_call_id": "call_replace_1",
+    "content": "{\"replacements\":1}"
+  },
+  {
+    "role": "assistant",
+    "content": "Refactor applied. Let me run the test suite to make sure I have not broken anything.",
+    "tool_calls": [
+      {
+        "id": "call_bash_1",
+        "type": "function",
+        "function": {
+          "name": "bash",
+          "arguments": "{\"command\":\"npm test --workspace @agentflow/core\"}"
+        }
+      }
+    ]
+  },
+  {
+    "role": "tool",
+    "tool_call_id": "call_bash_1",
+    "content": "{\"stdout\":\"PASS  src/parser.test.ts\\nPASS  src/store.test.ts\\nFAIL  src/api/client.test.ts\\n  ● ApiClient › retries on 5xx\\n\",\"stderr\":\"  Expected ApiError, received TypeError\\n    at Object.<anonymous> (src/api/client.test.ts:42:18)\",\"exitCode\":1}"
+  },
+  {
+    "role": "assistant",
+    "content": "The test expects an `ApiError` but we are throwing a raw `TypeError` from `fetch`. The retry wrapper needs to catch that and rethrow as `ApiError`."
+  }
+]

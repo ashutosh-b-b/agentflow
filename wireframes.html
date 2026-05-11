@@ -1,0 +1,1407 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-screen-label="Agentflow · Component wireframes">
+<head>
+<meta charset="utf-8">
+<title>Agentflow — Component wireframes</title>
+<link rel="stylesheet" href="colors_and_type.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Caveat:wght@500;600;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* ========= wireframe-flavored overrides on top of the design tokens ========= */
+  :root {
+    --ink: #1a1d23;
+    --ink-2: #4b5260;
+    --ink-3: #8a8f99;
+    --ink-4: #c8ccd4;
+    --paper: #fbfaf6;
+    --paper-2: #f3f1ea;
+    --rule: #2b2f37;
+    --hand: "Kalam", "Caveat", "Comic Sans MS", system-ui, sans-serif;
+    --note: "Caveat", cursive;
+  }
+  html, body { background: var(--paper); color: var(--ink); }
+  body {
+    background-image:
+      linear-gradient(to right, rgba(0,0,0,0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,0,0,0.025) 1px, transparent 1px);
+    background-size: 24px 24px;
+    font-family: var(--font-sans);
+  }
+
+  /* page shell */
+  .page {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 48px 40px 96px;
+  }
+  .doc-head { margin-bottom: 32px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .doc-head h1 { font-family: var(--hand); font-weight: 700; font-size: 44px; letter-spacing: -0.01em; color: var(--ink); margin: 0 0 4px; }
+  .doc-head .sub { font-family: var(--note); font-size: 22px; color: var(--ink-2); }
+  .doc-head .meta { font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); text-align: right; line-height: 1.5; }
+
+  .legend {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    font-family: var(--note); font-size: 18px; color: var(--ink-2);
+    border-top: 1.5px dashed var(--ink-3);
+    border-bottom: 1.5px dashed var(--ink-3);
+    padding: 8px 0; margin-bottom: 40px;
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend .sw { width: 14px; height: 14px; border: 1.5px solid var(--ink); border-radius: 3px; display: inline-block; }
+  .legend .sw.accent { background: #c9d3ff; }
+  .legend .sw.rose { background: #f5d6e2; }
+  .legend .sw.lav { background: #e6dbf5; }
+  .legend .sw.mint { background: #d3eedd; }
+  .legend .sw.coral { background: #f5d6d6; }
+  .legend .sw.honey { background: #f5e6c2; }
+
+  /* section header */
+  section { margin-bottom: 56px; }
+  .sec-head {
+    display: flex; align-items: baseline; gap: 12px;
+    margin-bottom: 20px; padding-bottom: 6px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .sec-num {
+    font-family: var(--hand); font-weight: 700; font-size: 28px;
+    background: var(--ink); color: var(--paper);
+    padding: 0 10px; border-radius: 4px;
+    transform: rotate(-1deg);
+  }
+  .sec-title { font-family: var(--hand); font-weight: 700; font-size: 28px; color: var(--ink); }
+  .sec-sub { font-family: var(--note); font-size: 20px; color: var(--ink-2); margin-left: auto; }
+
+  /* card grid */
+  .grid { display: grid; gap: 24px; }
+  .grid.c2 { grid-template-columns: 1fr 1fr; }
+  .grid.c3 { grid-template-columns: repeat(3, 1fr); }
+  .grid.c2-1 { grid-template-columns: 2fr 1fr; }
+
+  /* wireframe card — "sketchy" frame */
+  .wf {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+    padding: 18px;
+    position: relative;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .wf.dashed { border-style: dashed; }
+  .wf.tilt-l { transform: rotate(-0.3deg); }
+  .wf.tilt-r { transform: rotate(0.3deg); }
+  .wf .label {
+    position: absolute; top: -14px; left: 14px;
+    background: var(--paper); padding: 0 8px;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink);
+  }
+  .wf .label.alt { right: 14px; left: auto; color: var(--ink-2); font-weight: 500; }
+  .wf .desc { font-family: var(--note); font-size: 18px; color: var(--ink-2); margin: 0 0 12px; line-height: 1.25; }
+  .wf .props {
+    margin-top: 14px; padding-top: 10px;
+    border-top: 1.5px dashed var(--ink-3);
+    font-family: var(--font-mono); font-size: 11px; color: var(--ink-2);
+    display: flex; flex-wrap: wrap; gap: 6px 10px;
+  }
+  .wf .props span { background: var(--paper-2); padding: 2px 6px; border-radius: 3px; }
+
+  /* primitives inside wireframes */
+  .row { display: flex; align-items: center; gap: 8px; }
+  .row.between { justify-content: space-between; }
+  .row.wrap { flex-wrap: wrap; }
+  .stack { display: flex; flex-direction: column; gap: 8px; }
+  .stack.tight { gap: 4px; }
+  .stack.loose { gap: 16px; }
+
+  .bar { background: var(--ink-4); border-radius: 2px; height: 10px; }
+  .bar.t { background: var(--ink-3); height: 12px; }
+  .bar.h { background: var(--ink-2); height: 14px; }
+  .bar.w-1\/4 { width: 25%; } .bar.w-1\/3 { width: 33%; } .bar.w-1\/2 { width: 50%; }
+  .bar.w-2\/3 { width: 66%; } .bar.w-3\/4 { width: 75%; } .bar.w-full { width: 100%; }
+  .bar.w-90 { width: 90%; } .bar.w-80 { width: 80%; } .bar.w-60 { width: 60%; } .bar.w-40 { width: 40%; }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1.5px solid var(--ink); border-radius: 999px;
+    padding: 2px 10px; font-family: var(--font-mono); font-size: 11px;
+    background: var(--paper);
+  }
+  .pill.fill { background: var(--ink); color: var(--paper); }
+  .pill.accent { background: #dbe2ff; border-color: #4f6ed4; color: #2e4ba8; }
+  .pill.mint { background: #d3eedd; border-color: #2f9d5f; color: #1f7a48; }
+  .pill.coral { background: #f5d6d6; border-color: #cc4b4b; color: #9b2f2f; }
+  .pill.honey { background: #f5e6c2; border-color: #b87a14; color: #8a5a0b; }
+  .pill.lav { background: #e6dbf5; border-color: #8a5dc4; color: #6a3fa3; }
+  .pill.rose { background: #f5d6e2; border-color: #c4598a; color: #9c3d6a; }
+  .pill.gray { background: var(--paper-2); border-color: var(--ink-3); color: var(--ink-2); }
+
+  .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--ink); display: inline-block; }
+  .dot.mint { background: #2f9d5f; } .dot.coral { background: #cc4b4b; }
+  .dot.honey { background: #b87a14; } .dot.accent { background: #4f6ed4; }
+  .dot.lav { background: #8a5dc4; } .dot.gray { background: var(--ink-3); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1.5px solid var(--ink); padding: 4px 10px;
+    border-radius: 4px; font-family: var(--font-mono); font-size: 11px;
+    background: var(--paper);
+  }
+  .btn.tiny { padding: 1px 6px; font-size: 10px; }
+  .btn.fill { background: var(--ink); color: var(--paper); }
+  .btn.ghost { border-style: dashed; color: var(--ink-2); }
+
+  /* code lines */
+  .codebox {
+    background: var(--paper-2); border: 1.5px solid var(--ink);
+    border-radius: 4px; padding: 10px; font-family: var(--font-mono);
+    font-size: 11px; color: var(--ink-2);
+  }
+  .codebox .ln { display: flex; gap: 10px; line-height: 1.5; }
+  .codebox .ln .gutter { color: var(--ink-3); width: 18px; text-align: right; flex: 0 0 auto; user-select: none; }
+  .codebox .ln.hl { background: rgba(255,235,150,0.5); margin: 0 -10px; padding: 0 10px; }
+  .codebox .ln.add { background: rgba(47,157,95,0.10); margin: 0 -10px; padding: 0 10px; }
+  .codebox .ln.del { background: rgba(204,75,75,0.10); margin: 0 -10px; padding: 0 10px; }
+  .codebox .ln.add .gutter::before { content: "+"; color: #2f9d5f; margin-right: 2px; }
+  .codebox .ln.del .gutter::before { content: "−"; color: #cc4b4b; margin-right: 2px; }
+  .codebox .skel { background: var(--ink-4); height: 8px; border-radius: 2px; flex: 1; }
+  .codebox .skel.add { background: rgba(47,157,95,0.4); }
+  .codebox .skel.del { background: rgba(204,75,75,0.4); }
+  .codebox .fadebot {
+    height: 28px; margin: -10px -10px -10px;
+    background: linear-gradient(to bottom, transparent, var(--paper-2));
+    border-top: 1px dashed var(--ink-3);
+  }
+  .codebox .collapsed-row {
+    text-align: center; color: var(--ink-2); font-style: italic;
+    padding: 4px 0; border-top: 1px dashed var(--ink-3); border-bottom: 1px dashed var(--ink-3);
+    margin: 4px 0;
+  }
+
+  /* image placeholder */
+  .imgbox {
+    background: var(--paper-2); border: 1.5px solid var(--ink);
+    border-radius: 4px; min-height: 120px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-3); font-family: var(--note); font-size: 18px;
+    background-image:
+      linear-gradient(45deg, var(--ink-4) 25%, transparent 25%),
+      linear-gradient(-45deg, var(--ink-4) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, var(--ink-4) 75%),
+      linear-gradient(-45deg, transparent 75%, var(--ink-4) 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+  }
+
+  /* avatar */
+  .avi {
+    width: 24px; height: 24px; border-radius: 999px;
+    border: 1.5px solid var(--ink); background: var(--paper-2);
+    font-family: var(--font-mono); font-size: 10px;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex: 0 0 auto;
+  }
+  .avi.assistant { background: #c9d3ff; }
+  .avi.user { background: #f3f1ea; }
+
+  /* annotation arrows */
+  .anno {
+    position: absolute; font-family: var(--note); font-size: 16px;
+    color: var(--ink-2); pointer-events: none;
+  }
+  .anno svg { display: block; }
+
+  /* mode-side-by-side */
+  .modes {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+    align-items: stretch;
+  }
+  .mode-col h3 { font-family: var(--hand); font-size: 22px; margin-bottom: 6px; }
+  .mode-col .modedesc { font-family: var(--note); font-size: 18px; color: var(--ink-2); margin-bottom: 14px; line-height: 1.25; }
+
+  /* full chat preview frame */
+  .preview {
+    background: var(--paper); border: 2px solid var(--ink); border-radius: 8px;
+    box-shadow: 4px 4px 0 var(--ink);
+    overflow: hidden;
+  }
+  .preview .topbar {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px; border-bottom: 1.5px solid var(--ink);
+    background: var(--paper-2);
+    font-family: var(--font-mono); font-size: 11px; color: var(--ink-2);
+  }
+  .preview .tlite { width: 8px; height: 8px; border-radius: 999px; background: var(--ink-3); }
+  .preview .topbar .pad { flex: 1; }
+
+  /* chat-mode shell */
+  .chat-shell { display: grid; grid-template-columns: 56px 1fr; min-height: 640px; }
+  .chat-shell .side {
+    border-right: 1.5px solid var(--ink); padding: 12px 8px;
+    display: flex; flex-direction: column; gap: 10px; align-items: center;
+    background: var(--paper);
+  }
+  .chat-shell .side .icon {
+    width: 30px; height: 30px; border: 1.5px solid var(--ink); border-radius: 6px;
+    background: var(--paper); display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 11px;
+  }
+  .chat-shell .side .icon.active { background: var(--ink); color: var(--paper); }
+  .chat-shell .main { display: flex; flex-direction: column; }
+  .chat-shell .thread {
+    flex: 1; padding: 24px 32px; overflow: hidden;
+    max-width: 760px; margin: 0 auto; width: 100%; box-sizing: border-box;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .chat-shell .composer {
+    border-top: 1.5px solid var(--ink); padding: 14px 24px;
+    display: flex; gap: 10px; align-items: center; background: var(--paper);
+  }
+  .chat-shell .composer .input {
+    flex: 1; border: 1.5px solid var(--ink); border-radius: 6px;
+    padding: 8px 12px; font-family: var(--font-mono); font-size: 11px;
+    color: var(--ink-3);
+  }
+
+  /* chat message blocks */
+  .msg { display: flex; gap: 12px; align-items: flex-start; }
+  .msg .name { font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+  .msg .meta { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); margin-left: 6px; }
+  .msg .body { flex: 1; min-width: 0; }
+  .msg.user .body {
+    background: var(--paper-2); border: 1.5px solid var(--ink);
+    border-radius: 8px; padding: 10px 12px;
+  }
+  .msg-stack { display: flex; flex-direction: column; gap: 6px; }
+
+  /* collapsed tool card */
+  .toolcard {
+    border: 1.5px solid var(--ink); border-radius: 8px; background: var(--paper);
+    overflow: hidden;
+  }
+  .toolcard .head {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px; background: var(--paper-2);
+    font-family: var(--font-mono); font-size: 11px;
+  }
+  .toolcard .head .summary { color: var(--ink-2); }
+  .toolcard .head .chev { margin-left: auto; }
+  .toolcard .body { padding: 12px; border-top: 1.5px dashed var(--ink-3); }
+  .toolcard.error .head { background: #f5d6d6; }
+
+  .think {
+    border-left: 3px solid #8a5dc4; background: #f1ebfa;
+    padding: 8px 12px; border-radius: 0 6px 6px 0;
+    font-family: var(--font-mono); font-size: 11px; color: #6a3fa3; font-style: italic;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .compact-rule {
+    display: flex; align-items: center; gap: 12px;
+    color: var(--ink-2); font-family: var(--font-mono); font-size: 11px; font-style: italic;
+  }
+  .compact-rule .line { flex: 1; border-top: 1.5px dashed var(--ink-3); }
+
+  /* devtool layout */
+  .dev-shell {
+    display: grid; grid-template-columns: 240px 1fr 320px;
+    min-height: 640px;
+  }
+  .dev-shell .lhs, .dev-shell .rhs {
+    border: 0; border-right: 1.5px solid var(--ink); padding: 14px;
+    display: flex; flex-direction: column; gap: 10px; background: var(--paper);
+  }
+  .dev-shell .rhs { border-right: 0; border-left: 1.5px solid var(--ink); }
+  .dev-shell .events {
+    padding: 0; background: var(--paper); overflow: hidden;
+  }
+  .dev-shell .events .row {
+    display: grid; grid-template-columns: 80px 24px 90px 1fr;
+    gap: 10px; padding: 7px 14px; border-bottom: 1px solid var(--ink-4);
+    font-family: var(--font-mono); font-size: 11px; align-items: center;
+  }
+  .dev-shell .events .row.hdr { background: var(--paper-2); color: var(--ink-3); font-weight: 600; }
+  .dev-shell .events .row .ts { color: var(--ink-3); }
+  .dev-shell .events .row .typ { color: var(--ink); }
+  .dev-shell .events .row.selected { background: #eef2ff; border-left: 3px solid #4f6ed4; padding-left: 11px; }
+
+  .dev-shell .lhs h5, .dev-shell .rhs h5 {
+    font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3);
+    margin: 0 0 6px;
+  }
+  .dev-shell .filter { display: flex; flex-direction: column; gap: 4px; font-family: var(--font-mono); font-size: 11px; }
+  .dev-shell .filter label { display: flex; align-items: center; gap: 6px; color: var(--ink-2); }
+  .dev-shell .filter .ck {
+    width: 12px; height: 12px; border: 1.5px solid var(--ink); border-radius: 2px;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 10px;
+  }
+  .dev-shell .filter .ck.on { background: var(--ink); color: var(--paper); }
+
+  .dev-shell .kv { font-family: var(--font-mono); font-size: 11px; }
+  .dev-shell .kv .k { color: var(--ink-3); }
+  .dev-shell .kv .v { color: var(--ink); }
+
+  /* note callout */
+  .note {
+    font-family: var(--note); font-size: 18px; color: var(--ink-2);
+    line-height: 1.2; padding: 6px 0;
+  }
+  .arrow-note {
+    position: relative; padding-left: 18px;
+  }
+  .arrow-note::before {
+    content: "→"; position: absolute; left: 0; top: 0; color: var(--ink);
+    font-family: var(--hand); font-weight: 700;
+  }
+
+  /* responsive collapse */
+  @media (max-width: 980px) {
+    .grid.c2, .grid.c3, .grid.c2-1 { grid-template-columns: 1fr; }
+    .modes { grid-template-columns: 1fr; }
+    .dev-shell { grid-template-columns: 200px 1fr; }
+    .dev-shell .rhs { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ========== HEAD ========== -->
+  <div class="doc-head">
+    <div>
+      <h1>Agentflow — component wireframes</h1>
+      <div class="sub">Lo-fi structure pass · primitives · secondary · containers · two view modes</div>
+    </div>
+    <div class="meta">
+      v0.1 · wireframe<br>
+      May 03, 2026<br>
+      <span style="color:var(--ink-2)">light theme · structure-only</span>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><span class="sw"></span> default surface</span>
+    <span><span class="sw accent"></span> accent / selected</span>
+    <span><span class="sw lav"></span> thinking</span>
+    <span><span class="sw rose"></span> tools</span>
+    <span><span class="sw mint"></span> success / additions</span>
+    <span><span class="sw coral"></span> error / deletions</span>
+    <span><span class="sw honey"></span> warning / highlight</span>
+    <span style="margin-left:auto"><em>dashed</em> = collapsed / hidden region</span>
+  </div>
+
+  <!-- ========================================================
+       6.1 PRIMARY COMPONENTS
+       ======================================================== -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">6.1</span>
+      <span class="sec-title">Primary components — pure renderers</span>
+      <span class="sec-sub">no event awareness · reusable</span>
+    </div>
+
+    <div class="grid c2">
+
+      <!-- CodeDisplay -->
+      <div class="wf tilt-l">
+        <span class="label">&lt;CodeDisplay&gt;</span>
+        <p class="desc">Bounded-height code with line numbers, highlighted lines, copy. Collapses with fade when too long.</p>
+
+        <div class="row between" style="margin-bottom:8px">
+          <div class="row" style="gap:6px">
+            <span class="pill gray">python</span>
+            <span class="pill gray">github-dark</span>
+          </div>
+          <div class="row" style="gap:4px">
+            <span class="btn tiny">copy</span>
+            <span class="btn tiny ghost">⤢</span>
+          </div>
+        </div>
+
+        <div class="codebox">
+          <div class="ln"><span class="gutter">1</span><div class="skel" style="width:60%"></div></div>
+          <div class="ln"><span class="gutter">2</span><div class="skel" style="width:80%"></div></div>
+          <div class="ln hl"><span class="gutter">3</span><div class="skel" style="width:45%"></div></div>
+          <div class="ln"><span class="gutter">4</span><div class="skel" style="width:70%"></div></div>
+          <div class="ln"><span class="gutter">5</span><div class="skel" style="width:55%"></div></div>
+          <div class="ln"><span class="gutter">6</span><div class="skel" style="width:90%"></div></div>
+          <div class="ln hl"><span class="gutter">7</span><div class="skel" style="width:30%"></div></div>
+          <div class="ln"><span class="gutter">8</span><div class="skel" style="width:65%"></div></div>
+          <div class="fadebot"></div>
+        </div>
+        <div class="row between" style="margin-top:8px">
+          <span class="note arrow-note">collapsed @ 120px → "Expand"</span>
+          <span class="btn tiny fill">▾ Expand</span>
+        </div>
+
+        <div class="props">
+          <span>value</span><span>language</span><span>showLineNumbers</span>
+          <span>highlightLines[]</span><span>maxHeight=400</span><span>collapsible</span>
+          <span>collapsedHeight=120</span><span>copyable</span><span>theme</span>
+        </div>
+      </div>
+
+      <!-- MarkdownDisplay -->
+      <div class="wf tilt-r">
+        <span class="label">&lt;MarkdownDisplay&gt;</span>
+        <p class="desc">GFM markdown · fenced code routes through CodeDisplay · math via lazy katex · safe by default.</p>
+
+        <div class="stack">
+          <div class="bar h w-2/3"></div>
+          <div class="stack tight">
+            <div class="bar w-full"></div>
+            <div class="bar w-3/4"></div>
+            <div class="bar w-90"></div>
+          </div>
+
+          <!-- list -->
+          <div style="display:grid; grid-template-columns:14px 1fr; row-gap:6px; column-gap:8px;">
+            <span style="font-family:var(--font-mono); color:var(--ink-2); font-size:11px;">•</span>
+            <div class="bar w-3/4"></div>
+            <span style="font-family:var(--font-mono); color:var(--ink-2); font-size:11px;">•</span>
+            <div class="bar w-1/2"></div>
+            <span style="font-family:var(--font-mono); color:var(--ink-2); font-size:11px;">•</span>
+            <div class="bar w-2/3"></div>
+          </div>
+
+          <!-- table -->
+          <div style="border:1.5px solid var(--ink); border-radius:4px; overflow:hidden;">
+            <div class="row" style="border-bottom:1.5px solid var(--ink); background:var(--paper-2);">
+              <div style="flex:1; padding:6px 8px;"><div class="bar w-1/2"></div></div>
+              <div style="flex:1; padding:6px 8px; border-left:1.5px solid var(--ink);"><div class="bar w-2/3"></div></div>
+              <div style="flex:1; padding:6px 8px; border-left:1.5px solid var(--ink);"><div class="bar w-1/3"></div></div>
+            </div>
+            <div class="row" style="border-bottom:1px dashed var(--ink-3);">
+              <div style="flex:1; padding:6px 8px;"><div class="bar w-3/4"></div></div>
+              <div style="flex:1; padding:6px 8px; border-left:1.5px solid var(--ink);"><div class="bar w-1/2"></div></div>
+              <div style="flex:1; padding:6px 8px; border-left:1.5px solid var(--ink);"><div class="bar w-2/3"></div></div>
+            </div>
+            <div class="row">
+              <div style="flex:1; padding:6px 8px;"><div class="bar w-2/3"></div></div>
+              <div style="flex:1; padding:6px 8px; border-left:1.5px solid var(--ink);"><div class="bar w-3/4"></div></div>
+              <div style="flex:1; padding:6px 8px; border-left:1.5px solid var(--ink);"><div class="bar w-1/2"></div></div>
+            </div>
+          </div>
+
+          <!-- inline fenced code reference -->
+          <div class="row" style="gap:8px;">
+            <span class="pill gray" style="font-family:var(--font-mono);">↳ &lt;CodeDisplay&gt;</span>
+            <span class="note">fenced blocks delegate</span>
+          </div>
+        </div>
+
+        <div class="props">
+          <span>value</span><span>components{}</span><span>allowHtml=false</span>
+          <span>codeTheme</span><span>maxHeight=null</span><span>collapsible</span>
+        </div>
+      </div>
+
+      <!-- DiffViewer -->
+      <div class="wf">
+        <span class="label">&lt;DiffViewer&gt;</span>
+        <p class="desc">GitHub-style unified diff (or split). Auto-collapses unchanged regions. Composes CodeDisplay.</p>
+
+        <div class="row between" style="margin-bottom:8px;">
+          <div class="row" style="gap:6px;">
+            <span class="pill gray">unified</span>
+            <span class="pill gray">typescript</span>
+            <span class="pill mint">+12</span>
+            <span class="pill coral">−4</span>
+          </div>
+          <div class="row" style="gap:4px;">
+            <span class="btn tiny ghost">split</span>
+            <span class="btn tiny">copy</span>
+          </div>
+        </div>
+
+        <div class="codebox">
+          <div class="ln"><span class="gutter">14</span><div class="skel" style="width:65%"></div></div>
+          <div class="ln"><span class="gutter">15</span><div class="skel" style="width:80%"></div></div>
+          <div class="ln"><span class="gutter">16</span><div class="skel" style="width:50%"></div></div>
+          <div class="collapsed-row">… 24 unchanged lines</div>
+          <div class="ln del"><span class="gutter">41</span><div class="skel del" style="width:70%"></div></div>
+          <div class="ln add"><span class="gutter">41</span><div class="skel add" style="width:55%"></div></div>
+          <div class="ln add"><span class="gutter">42</span><div class="skel add" style="width:75%"></div></div>
+          <div class="ln"><span class="gutter">43</span><div class="skel" style="width:60%"></div></div>
+          <div class="ln"><span class="gutter">44</span><div class="skel" style="width:40%"></div></div>
+        </div>
+
+        <div class="props">
+          <span>oldValue</span><span>newValue</span><span>view=unified</span>
+          <span>contextLines=3</span><span>maxHeight=500</span><span>collapseUnchanged</span>
+        </div>
+      </div>
+
+      <!-- ImageDisplay -->
+      <div class="wf">
+        <span class="label">&lt;ImageDisplay&gt;</span>
+        <p class="desc">Bounded image with click-to-expand lightbox. Loading + error states. Lazy by default.</p>
+
+        <div class="grid" style="grid-template-columns: 2fr 1fr; gap: 12px;">
+          <div class="imgbox" style="min-height: 140px;">
+            <span>screenshot.png — 640×400</span>
+          </div>
+          <div class="stack">
+            <div class="imgbox" style="min-height: 64px; font-size: 14px;">loading…</div>
+            <div class="imgbox" style="min-height: 64px; font-size: 14px; background: #f5d6d6;">⚠ error</div>
+            <span class="btn tiny">⤢ lightbox</span>
+          </div>
+        </div>
+
+        <div class="props">
+          <span>src</span><span>alt</span><span>maxHeight=400</span><span>lightbox=true</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       6.2 SECONDARY COMPONENTS
+       ======================================================== -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">6.2</span>
+      <span class="sec-title">Secondary components — event-aware</span>
+      <span class="sec-sub">compose primaries · read events from store</span>
+    </div>
+
+    <div class="grid c2">
+
+      <!-- UserMessage -->
+      <div class="wf">
+        <span class="label">&lt;UserMessage&gt;</span>
+        <p class="desc">Right-aligned bubble. Renders content via MarkdownDisplay. Inlines image attachments + download chips.</p>
+
+        <div class="msg user" style="justify-content:flex-end;">
+          <div class="body" style="max-width: 75%;">
+            <div class="row between" style="margin-bottom:6px;">
+              <span class="name" style="font-family:var(--font-mono);">you</span>
+              <span class="meta">2m ago</span>
+            </div>
+            <div class="stack tight">
+              <div class="bar w-90"></div>
+              <div class="bar w-3/4"></div>
+              <div class="bar w-1/2"></div>
+            </div>
+            <div class="row" style="gap:6px; margin-top:8px;">
+              <span class="pill gray">📎 spec.pdf · 84 KB</span>
+              <span class="pill gray">📎 mock.png</span>
+            </div>
+          </div>
+          <div class="avi user">U</div>
+        </div>
+
+        <div class="note arrow-note" style="margin-top:10px;">
+          long paste · collapsible={true} clamps to ~10 lines + "Show more"
+        </div>
+
+        <div class="props">
+          <span>event</span><span>maxHeight=null</span><span>collapsible=false</span><span>verbose</span>
+        </div>
+      </div>
+
+      <!-- AssistantMessage -->
+      <div class="wf">
+        <span class="label">&lt;AssistantMessage&gt;</span>
+        <p class="desc">No bubble — flowing markdown. Inlines associated tool-call request displays. Streaming caret on streaming.</p>
+
+        <div class="msg">
+          <div class="avi assistant">A</div>
+          <div class="body">
+            <div class="row" style="margin-bottom:6px;">
+              <span class="name" style="font-family:var(--font-mono);">assistant</span>
+              <span class="meta">streaming · 142 tok/s</span>
+            </div>
+            <div class="stack tight" style="margin-bottom:12px;">
+              <div class="bar w-full"></div>
+              <div class="bar w-90"></div>
+              <div class="bar w-3/4"></div>
+              <div class="row" style="gap:4px;">
+                <div class="bar w-40" style="height:14px;"></div>
+                <span style="display:inline-block; width:2px; height:14px; background:#4f6ed4;"></span>
+              </div>
+            </div>
+
+            <!-- inlined tool call -->
+            <div class="toolcard" style="margin-bottom:8px;">
+              <div class="head">
+                <span class="dot mint"></span>
+                <span style="font-weight:600;">read_file</span>
+                <span class="summary">· src/index.ts</span>
+                <span class="meta" style="color:var(--ink-3);">142ms</span>
+                <span class="chev">▸</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="props">
+          <span>event</span>
+          <span>toolCallDisplay=full|input-only|name-only|none</span>
+        </div>
+      </div>
+
+      <!-- ThinkingDisplay -->
+      <div class="wf">
+        <span class="label">&lt;ThinkingDisplay&gt;</span>
+        <p class="desc">Collapsed pill "Thought for 12s" → expands to lavender block with italic reasoning.</p>
+
+        <div class="stack">
+          <div class="row" style="gap:8px;">
+            <span class="pill lav">▸ Thought for 12s · 1,284 tok</span>
+          </div>
+          <div class="think">
+            <div style="display:flex; flex-direction:column; gap:6px; flex:1;">
+              <div style="font-style:italic;">▾ thinking</div>
+              <div class="bar w-full" style="background:#c4a8f0; opacity:.4"></div>
+              <div class="bar w-3/4" style="background:#c4a8f0; opacity:.4"></div>
+              <div class="bar w-90" style="background:#c4a8f0; opacity:.4"></div>
+              <div class="bar w-1/2" style="background:#c4a8f0; opacity:.4"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="props"><span>event</span><span>defaultExpanded=false</span><span>verbose</span></div>
+      </div>
+
+      <!-- CompactionDisplay -->
+      <div class="wf">
+        <span class="label">&lt;CompactionDisplay&gt;</span>
+        <p class="desc">Horizontal divider with summary. Always collapsed by default. Expands to full summary + event ID list.</p>
+
+        <div class="compact-rule">
+          <span class="line"></span>
+          <span>▸ 12 earlier messages summarized — saved 8.4k tokens</span>
+          <span class="line"></span>
+        </div>
+
+        <div style="border:1.5px dashed var(--ink-3); border-radius:6px; padding:12px; margin-top:14px;">
+          <div class="row" style="gap:8px; margin-bottom:8px;">
+            <span class="pill lav">▾ expanded</span>
+            <span class="meta" style="font-family:var(--font-mono); color:var(--ink-3);">12 events · 14,230 → 5,830 tok</span>
+          </div>
+          <div class="stack tight">
+            <div class="bar w-full"></div>
+            <div class="bar w-90"></div>
+            <div class="bar w-3/4"></div>
+          </div>
+          <div class="row wrap" style="gap:4px; margin-top:10px;">
+            <span class="pill gray">evt#41</span>
+            <span class="pill gray">evt#42</span>
+            <span class="pill gray">evt#43</span>
+            <span class="pill gray">evt#44</span>
+            <span class="pill gray">+8</span>
+          </div>
+        </div>
+
+        <div class="props"><span>event</span><span>defaultExpanded=false</span></div>
+      </div>
+
+      <!-- SystemMessageDisplay -->
+      <div class="wf">
+        <span class="label">&lt;SystemMessageDisplay&gt;</span>
+        <p class="desc">Hidden by default in chat mode · full prompt visible in devtool mode.</p>
+
+        <div class="stack">
+          <div class="note arrow-note">chat mode</div>
+          <div style="border:1.5px dashed var(--ink-3); border-radius:6px; padding:8px 10px; color:var(--ink-3); font-family:var(--font-mono); font-size:11px;">
+            (hidden — system prompt)
+          </div>
+
+          <div class="note arrow-note" style="margin-top:8px;">devtool mode</div>
+          <div style="border:1.5px solid var(--ink); border-radius:6px; padding:10px;">
+            <div class="row" style="gap:8px; margin-bottom:6px;">
+              <span class="pill gray">SYSTEM</span>
+              <span class="meta" style="font-family:var(--font-mono);">2,140 tok</span>
+            </div>
+            <div class="stack tight">
+              <div class="bar w-full"></div>
+              <div class="bar w-90"></div>
+              <div class="bar w-3/4"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="props"><span>event</span><span>mode-aware</span></div>
+      </div>
+
+      <!-- ErrorDisplay -->
+      <div class="wf">
+        <span class="label">&lt;ErrorDisplay&gt;</span>
+        <p class="desc">Coral surface · message + retry · stack trace collapsed by default.</p>
+
+        <div style="border:1.5px solid #cc4b4b; background:#fbe9e9; border-radius:6px; padding:10px;">
+          <div class="row between" style="margin-bottom:6px;">
+            <div class="row" style="gap:8px;">
+              <span class="pill coral">⚠ FAILED</span>
+              <span style="font-family:var(--font-mono); font-size:12px; color:#9b2f2f; font-weight:600;">connection refused</span>
+            </div>
+            <span class="btn tiny">↻ retry</span>
+          </div>
+          <div class="stack tight">
+            <div class="bar w-90" style="background:rgba(204,75,75,0.4);"></div>
+            <div class="bar w-3/4" style="background:rgba(204,75,75,0.3);"></div>
+          </div>
+          <div class="row" style="margin-top:8px;">
+            <span class="pill coral" style="background:transparent;">▸ stack trace (3 frames)</span>
+          </div>
+        </div>
+
+        <div class="props"><span>event</span><span>onRetry?</span></div>
+      </div>
+
+      <!-- CitationDisplay -->
+      <div class="wf">
+        <span class="label">&lt;CitationDisplay&gt;</span>
+        <p class="desc">Numbered superscript with hover preview · click for full source card.</p>
+
+        <div class="stack">
+          <div class="row" style="gap:0; flex-wrap:wrap; align-items:baseline;">
+            <div class="bar w-1/4" style="margin-right:6px;"></div>
+            <span style="font-family:var(--font-mono); font-size:11px; color:#4f6ed4; vertical-align:super;">[1]</span>
+            <div class="bar w-1/3" style="margin: 0 6px;"></div>
+            <span style="font-family:var(--font-mono); font-size:11px; color:#4f6ed4; vertical-align:super;">[2]</span>
+            <div class="bar w-1/4" style="margin-left:6px;"></div>
+            <span style="font-family:var(--font-mono); font-size:11px; color:#4f6ed4; vertical-align:super;">[3]</span>
+          </div>
+
+          <div style="border:1.5px solid var(--ink); border-radius:6px; padding:10px; box-shadow:3px 3px 0 var(--ink); max-width: 320px;">
+            <div class="row" style="gap:6px; margin-bottom:6px;">
+              <span class="pill accent">[2]</span>
+              <span style="font-family:var(--font-mono); font-size:11px;">github.com/owner/repo</span>
+            </div>
+            <div class="stack tight">
+              <div class="bar w-full"></div>
+              <div class="bar w-3/4"></div>
+            </div>
+            <div class="meta" style="margin-top:6px;">L142–L168 · README.md</div>
+          </div>
+        </div>
+
+        <div class="props"><span>citation</span><span>hover preview</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       6.2 — TOOL DISPLAY (own subsection — there's a lot)
+       ======================================================== -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">6.2*</span>
+      <span class="sec-title">&lt;ToolDisplay&gt; — base + variants</span>
+      <span class="sec-sub">collapsed in chat · expanded in devtool</span>
+    </div>
+
+    <!-- base layout anatomy -->
+    <div class="wf" style="margin-bottom: 24px;">
+      <span class="label">&lt;ToolDisplay&gt; · anatomy</span>
+      <p class="desc">Header is always visible (name · status · duration · 1-line summary). Body collapses/expands.</p>
+
+      <div class="grid c2" style="gap:24px;">
+        <!-- collapsed -->
+        <div>
+          <div class="note arrow-note" style="margin-bottom:8px;">collapsed · chat default</div>
+          <div class="toolcard">
+            <div class="head">
+              <span class="dot mint"></span>
+              <span style="font-weight:600;">read_file</span>
+              <span class="summary">· src/index.ts</span>
+              <span class="meta" style="color:var(--ink-3); margin-left:auto;">142ms</span>
+              <span class="chev">▸</span>
+            </div>
+          </div>
+        </div>
+        <!-- expanded -->
+        <div>
+          <div class="note arrow-note" style="margin-bottom:8px;">expanded · devtool default</div>
+          <div class="toolcard">
+            <div class="head">
+              <span class="dot mint"></span>
+              <span style="font-weight:600;">read_file</span>
+              <span class="summary">· src/index.ts</span>
+              <span class="meta" style="color:var(--ink-3); margin-left:auto;">142ms</span>
+              <span class="chev">▾</span>
+            </div>
+            <div class="body">
+              <div class="row" style="gap:6px; margin-bottom:8px;">
+                <span class="pill gray">INPUT</span>
+                <span style="font-family:var(--font-mono); font-size:11px;">{ path: "src/index.ts" }</span>
+              </div>
+              <div class="row" style="gap:6px; margin-bottom:6px;">
+                <span class="pill gray">OUTPUT</span>
+                <span class="meta" style="font-family:var(--font-mono);">file · 4.3 KB · 184 lines</span>
+              </div>
+              <div class="codebox" style="max-height: 110px; overflow:hidden; position:relative;">
+                <div class="ln"><span class="gutter">1</span><div class="skel" style="width:60%"></div></div>
+                <div class="ln"><span class="gutter">2</span><div class="skel" style="width:80%"></div></div>
+                <div class="ln"><span class="gutter">3</span><div class="skel" style="width:50%"></div></div>
+                <div class="ln"><span class="gutter">4</span><div class="skel" style="width:70%"></div></div>
+                <div class="fadebot"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="props">
+        <span>name</span><span>status</span><span>durationMs</span>
+        <span>defaultExpanded</span><span>expanded?</span><span>summary</span>
+        <span>bodyMaxHeight=500</span><span>header?slot</span><span>children</span>
+      </div>
+    </div>
+
+    <!-- variants grid -->
+    <div class="grid c3">
+
+      <!-- IOToolDisplay -->
+      <div class="wf">
+        <span class="label">&lt;IOToolDisplay&gt;</span>
+        <p class="desc">read_file · write_file · str_replace. Composes Code / Diff / Image.</p>
+
+        <div class="toolcard">
+          <div class="head">
+            <span class="dot mint"></span>
+            <span style="font-weight:600;">write_file</span>
+            <span class="summary">· src/api.ts</span>
+            <span class="meta" style="color:var(--ink-3); margin-left:auto;">▾</span>
+          </div>
+          <div class="body">
+            <div class="codebox">
+              <div class="ln add"><span class="gutter">12</span><div class="skel add" style="width:70%"></div></div>
+              <div class="ln add"><span class="gutter">13</span><div class="skel add" style="width:55%"></div></div>
+              <div class="ln del"><span class="gutter">14</span><div class="skel del" style="width:60%"></div></div>
+              <div class="ln"><span class="gutter">15</span><div class="skel" style="width:80%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GrepToolDisplay -->
+      <div class="wf">
+        <span class="label">&lt;GrepToolDisplay&gt;</span>
+        <p class="desc">Result list with code snippets per match.</p>
+
+        <div class="toolcard">
+          <div class="head">
+            <span class="dot mint"></span>
+            <span style="font-weight:600;">grep</span>
+            <span class="summary">· "useEffect" · 12 hits</span>
+            <span class="meta" style="color:var(--ink-3); margin-left:auto;">▾</span>
+          </div>
+          <div class="body" style="padding:8px;">
+            <div class="stack tight">
+              <div style="font-family:var(--font-mono); font-size:11px; color:var(--ink-2);">src/App.tsx · 3</div>
+              <div class="codebox" style="font-size:10px;">
+                <div class="ln"><span class="gutter">14</span><div class="skel" style="width:70%"></div></div>
+                <div class="ln hl"><span class="gutter">28</span><div class="skel" style="width:55%"></div></div>
+              </div>
+              <div style="font-family:var(--font-mono); font-size:11px; color:var(--ink-2); margin-top:4px;">src/hooks/useData.ts · 2</div>
+              <div class="codebox" style="font-size:10px;">
+                <div class="ln hl"><span class="gutter">7</span><div class="skel" style="width:60%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GlobToolDisplay -->
+      <div class="wf">
+        <span class="label">&lt;GlobToolDisplay&gt;</span>
+        <p class="desc">File path list. Counts &amp; sizes optional.</p>
+
+        <div class="toolcard">
+          <div class="head">
+            <span class="dot mint"></span>
+            <span style="font-weight:600;">glob</span>
+            <span class="summary">· **/*.tsx · 24 files</span>
+            <span class="meta" style="color:var(--ink-3); margin-left:auto;">▾</span>
+          </div>
+          <div class="body" style="padding:8px 12px;">
+            <div class="stack tight" style="font-family:var(--font-mono); font-size:11px;">
+              <div class="row between"><span>src/App.tsx</span><span class="meta" style="font-family:var(--font-mono);">2.1 KB</span></div>
+              <div class="row between"><span>src/components/Button.tsx</span><span class="meta" style="font-family:var(--font-mono);">840 B</span></div>
+              <div class="row between"><span>src/components/Input.tsx</span><span class="meta" style="font-family:var(--font-mono);">1.4 KB</span></div>
+              <div class="row between"><span>src/components/Modal.tsx</span><span class="meta" style="font-family:var(--font-mono);">3.2 KB</span></div>
+              <div class="meta" style="font-family:var(--font-mono); padding-top:4px; border-top:1px dashed var(--ink-3);">+20 more</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BashToolDisplay -->
+      <div class="wf">
+        <span class="label">&lt;BashToolDisplay&gt;</span>
+        <p class="desc">stdin / stdout / stderr blocks via CodeDisplay.</p>
+
+        <div class="toolcard">
+          <div class="head">
+            <span class="dot honey"></span>
+            <span style="font-weight:600;">bash</span>
+            <span class="summary">· npm test</span>
+            <span class="meta" style="color:var(--ink-3); margin-left:auto;">▾ 4.2s</span>
+          </div>
+          <div class="body" style="padding:8px;">
+            <div class="row" style="gap:6px; margin-bottom:4px;"><span class="pill gray">$ stdin</span></div>
+            <div class="codebox" style="font-size:11px; margin-bottom:6px;">
+              <div class="ln"><span class="gutter">›</span><div class="skel" style="width:50%"></div></div>
+            </div>
+            <div class="row" style="gap:6px; margin-bottom:4px;"><span class="pill gray">stdout</span></div>
+            <div class="codebox" style="font-size:11px; margin-bottom:6px;">
+              <div class="ln"><span class="gutter"></span><div class="skel" style="width:80%"></div></div>
+              <div class="ln"><span class="gutter"></span><div class="skel" style="width:60%"></div></div>
+            </div>
+            <div class="row" style="gap:6px; margin-bottom:4px;"><span class="pill coral">stderr</span></div>
+            <div class="codebox" style="font-size:11px;">
+              <div class="ln del"><span class="gutter"></span><div class="skel del" style="width:70%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WebSearchToolDisplay -->
+      <div class="wf">
+        <span class="label">&lt;WebSearchToolDisplay&gt;</span>
+        <p class="desc">Search-result card list — title · url · snippet.</p>
+
+        <div class="toolcard">
+          <div class="head">
+            <span class="dot mint"></span>
+            <span style="font-weight:600;">web_search</span>
+            <span class="summary">· "react server components"</span>
+            <span class="meta" style="color:var(--ink-3); margin-left:auto;">▾</span>
+          </div>
+          <div class="body" style="padding:8px;">
+            <div class="stack">
+              <div style="border-left:2px solid #4f6ed4; padding:2px 8px;">
+                <div class="bar h w-3/4" style="margin-bottom:4px;"></div>
+                <div style="font-family:var(--font-mono); font-size:10px; color:var(--ink-3); margin-bottom:4px;">react.dev/learn/rsc</div>
+                <div class="stack tight">
+                  <div class="bar w-90"></div>
+                  <div class="bar w-2/3"></div>
+                </div>
+              </div>
+              <div style="border-left:2px solid #4f6ed4; padding:2px 8px;">
+                <div class="bar h w-2/3" style="margin-bottom:4px;"></div>
+                <div style="font-family:var(--font-mono); font-size:10px; color:var(--ink-3); margin-bottom:4px;">vercel.com/blog/…</div>
+                <div class="stack tight">
+                  <div class="bar w-3/4"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slot API -->
+      <div class="wf dashed">
+        <span class="label">slot API · power users</span>
+        <p class="desc">Compose your own with Header / Summary / Body slots.</p>
+
+        <div style="font-family:var(--font-mono); font-size:11px; color:var(--ink-2); background:var(--paper-2); border-radius:4px; padding:10px; line-height:1.6;">
+          &lt;ToolDisplay name="bash" status="complete"&gt;<br>
+          &nbsp;&nbsp;&lt;ToolDisplay.Header&gt;…&lt;/&gt;<br>
+          &nbsp;&nbsp;&lt;ToolDisplay.Summary&gt;{cmd}&lt;/&gt;<br>
+          &nbsp;&nbsp;&lt;ToolDisplay.Body&gt;<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;CodeDisplay … /&gt;<br>
+          &nbsp;&nbsp;&lt;/ToolDisplay.Body&gt;<br>
+          &lt;/ToolDisplay&gt;
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ToolCallRequest / Result -->
+    <div class="grid c2" style="margin-top:24px;">
+      <div class="wf">
+        <span class="label">&lt;ToolCallRequestDisplay&gt; + &lt;ToolCallResultDisplay&gt;</span>
+        <p class="desc">Merged in chat: one card with input + output stacked. Errors expand by default.</p>
+
+        <div class="toolcard">
+          <div class="head">
+            <span class="dot mint"></span>
+            <span style="font-weight:600;">str_replace</span>
+            <span class="summary">· src/api.ts</span>
+            <span class="meta" style="color:var(--ink-3); margin-left:auto;">▾ 240ms</span>
+          </div>
+          <div class="body">
+            <div class="row" style="gap:6px; margin-bottom:6px;"><span class="pill accent">REQUEST</span></div>
+            <div class="codebox" style="margin-bottom:10px;">
+              <div class="ln"><span class="gutter">›</span><div class="skel" style="width:65%"></div></div>
+              <div class="ln"><span class="gutter">›</span><div class="skel" style="width:50%"></div></div>
+            </div>
+            <div class="row" style="gap:6px; margin-bottom:6px;"><span class="pill mint">RESULT</span></div>
+            <div class="codebox">
+              <div class="ln add"><span class="gutter">42</span><div class="skel add" style="width:70%"></div></div>
+              <div class="ln del"><span class="gutter">43</span><div class="skel del" style="width:55%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf">
+        <span class="label alt">separate · devtool mode</span>
+        <p class="desc">Two distinct timeline events with full timestamps. Useful for retries &amp; out-of-order arrivals.</p>
+
+        <div class="stack">
+          <div class="toolcard">
+            <div class="head">
+              <span class="pill accent">▸ REQ</span>
+              <span style="font-weight:600;">str_replace</span>
+              <span class="summary">· src/api.ts</span>
+              <span class="meta" style="color:var(--ink-3); margin-left:auto;">14:22:01.420</span>
+            </div>
+          </div>
+          <div class="toolcard">
+            <div class="head">
+              <span class="pill mint">▸ RES</span>
+              <span style="font-weight:600;">str_replace</span>
+              <span class="summary">· ok · 1 replacement</span>
+              <span class="meta" style="color:var(--ink-3); margin-left:auto;">14:22:01.660</span>
+            </div>
+          </div>
+
+          <!-- error variant — auto-expanded -->
+          <div class="toolcard error">
+            <div class="head">
+              <span class="dot coral"></span>
+              <span style="font-weight:600;">read_file</span>
+              <span class="summary">· src/missing.ts</span>
+              <span class="meta" style="color:#9b2f2f; margin-left:auto;">▾ FAILED</span>
+            </div>
+            <div class="body" style="background:#fbe9e9;">
+              <div style="font-family:var(--font-mono); font-size:11px; color:#9b2f2f;">ENOENT: no such file or directory</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================
+       CONVERSATION VIEW · TWO MODES
+       ======================================================== -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">CV</span>
+      <span class="sec-title">&lt;ConversationView&gt; · two modes</span>
+      <span class="sec-sub">chat (end-user) · devtool (developer)</span>
+    </div>
+
+    <div class="modes">
+
+      <!-- =============== CHAT MODE =============== -->
+      <div class="mode-col">
+        <h3>① Chat mode</h3>
+        <div class="modedesc">single-column thread · merged tool cards · system hidden · max-width 880px · composer pinned</div>
+
+        <div class="preview">
+          <div class="topbar">
+            <span class="tlite"></span><span class="tlite"></span><span class="tlite"></span>
+            <span style="margin-left:6px;">agentflow · chat</span>
+            <span class="pad"></span>
+            <span class="pill gray" style="font-size:10px;">mode: chat</span>
+          </div>
+          <div class="chat-shell">
+            <aside class="side">
+              <div class="icon active">≡</div>
+              <div class="icon">+</div>
+              <div class="icon">⌕</div>
+              <div class="icon">★</div>
+            </aside>
+            <div class="main">
+              <div class="thread">
+
+                <!-- compaction -->
+                <div class="compact-rule">
+                  <span class="line"></span>
+                  <span>▸ 12 earlier messages summarized</span>
+                  <span class="line"></span>
+                </div>
+
+                <!-- user msg -->
+                <div class="msg user" style="justify-content:flex-end;">
+                  <div class="body" style="max-width:75%;">
+                    <div class="row between" style="margin-bottom:6px;">
+                      <span class="name">you</span>
+                      <span class="meta">2m ago</span>
+                    </div>
+                    <div class="stack tight">
+                      <div class="bar w-90"></div>
+                      <div class="bar w-3/4"></div>
+                    </div>
+                  </div>
+                  <div class="avi user">U</div>
+                </div>
+
+                <!-- thinking -->
+                <div class="msg">
+                  <div class="avi assistant">A</div>
+                  <div class="body">
+                    <span class="pill lav">▸ Thought for 8s</span>
+                  </div>
+                </div>
+
+                <!-- assistant msg + merged tool call -->
+                <div class="msg">
+                  <div class="avi assistant">A</div>
+                  <div class="body msg-stack">
+                    <div class="stack tight">
+                      <div class="bar w-full"></div>
+                      <div class="bar w-3/4"></div>
+                    </div>
+                    <div class="toolcard">
+                      <div class="head">
+                        <span class="dot mint"></span>
+                        <span style="font-weight:600;">read_file</span>
+                        <span class="summary">· src/index.ts</span>
+                        <span class="meta" style="color:var(--ink-3); margin-left:auto;">▸ 142ms</span>
+                      </div>
+                    </div>
+                    <div class="toolcard">
+                      <div class="head">
+                        <span class="dot mint"></span>
+                        <span style="font-weight:600;">grep</span>
+                        <span class="summary">· "useEffect" · 12 hits</span>
+                        <span class="meta" style="color:var(--ink-3); margin-left:auto;">▸ 84ms</span>
+                      </div>
+                    </div>
+                    <div class="stack tight" style="margin-top:6px;">
+                      <div class="bar w-90"></div>
+                      <div class="bar w-2/3"></div>
+                      <div class="row" style="gap:4px;">
+                        <div class="bar w-40" style="height:14px;"></div>
+                        <span style="display:inline-block; width:2px; height:14px; background:#4f6ed4;"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="composer">
+                <div class="input">Ask anything…</div>
+                <span class="btn tiny ghost">📎</span>
+                <span class="btn tiny fill">↑</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="note arrow-note" style="margin-top:10px;">
+          tool calls collapsed · system hidden · errors auto-expand
+        </div>
+      </div>
+
+      <!-- =============== DEVTOOL MODE =============== -->
+      <div class="mode-col">
+        <h3>② Devtool mode</h3>
+        <div class="modedesc">three-pane · event timeline w/ timestamps · filters · inspector for raw payloads · everything visible</div>
+
+        <div class="preview">
+          <div class="topbar">
+            <span class="tlite"></span><span class="tlite"></span><span class="tlite"></span>
+            <span style="margin-left:6px;">agentflow · devtool</span>
+            <span class="pad"></span>
+            <span class="pill accent" style="font-size:10px;">mode: devtool</span>
+          </div>
+          <div class="dev-shell">
+
+            <!-- LHS: filters -->
+            <aside class="lhs">
+              <h5>Conversation</h5>
+              <div class="kv"><span class="k">id:</span> <span class="v">conv_8x2k</span></div>
+              <div class="kv"><span class="k">model:</span> <span class="v">claude-sonnet-4.5</span></div>
+              <div class="kv"><span class="k">tokens:</span> <span class="v">12.4k</span></div>
+              <div class="kv"><span class="k">events:</span> <span class="v">38</span></div>
+
+              <h5 style="margin-top:14px;">Filter event types</h5>
+              <div class="filter">
+                <label><span class="ck on">✓</span> system</label>
+                <label><span class="ck on">✓</span> user</label>
+                <label><span class="ck on">✓</span> assistant</label>
+                <label><span class="ck on">✓</span> thinking</label>
+                <label><span class="ck on">✓</span> tool_call</label>
+                <label><span class="ck on">✓</span> tool_result</label>
+                <label><span class="ck">&nbsp;</span> compaction</label>
+                <label><span class="ck">&nbsp;</span> error</label>
+              </div>
+
+              <h5 style="margin-top:14px;">Verbosity</h5>
+              <div class="row" style="gap:4px;">
+                <span class="btn tiny ghost">min</span>
+                <span class="btn tiny fill">verbose</span>
+                <span class="btn tiny ghost">raw</span>
+              </div>
+            </aside>
+
+            <!-- MAIN: event list -->
+            <div class="events">
+              <div class="row hdr">
+                <span>time</span><span></span><span>type</span><span>payload</span>
+              </div>
+              <div class="row">
+                <span class="ts">14:21:58</span>
+                <span><span class="dot gray"></span></span>
+                <span class="typ">SYSTEM</span>
+                <span class="meta" style="color:var(--ink-2);">2,140 tok · system prompt</span>
+              </div>
+              <div class="row">
+                <span class="ts">14:22:00</span>
+                <span><span class="dot accent"></span></span>
+                <span class="typ">USER</span>
+                <span class="meta" style="color:var(--ink-2);">"refactor the data layer to…"</span>
+              </div>
+              <div class="row">
+                <span class="ts">14:22:01</span>
+                <span><span class="dot lav"></span></span>
+                <span class="typ">THINKING</span>
+                <span class="meta" style="color:var(--ink-2);">8.0s · 1,284 tok</span>
+              </div>
+              <div class="row">
+                <span class="ts">14:22:09</span>
+                <span><span class="dot accent"></span></span>
+                <span class="typ">ASSISTANT</span>
+                <span class="meta" style="color:var(--ink-2);">streamed · 412 tok</span>
+              </div>
+              <div class="row selected">
+                <span class="ts">14:22:11</span>
+                <span><span class="dot mint"></span></span>
+                <span class="typ">TOOL_CALL</span>
+                <span class="meta" style="color:var(--ink-2);">read_file · src/index.ts</span>
+              </div>
+              <div class="row">
+                <span class="ts">14:22:11</span>
+                <span><span class="dot mint"></span></span>
+                <span class="typ">TOOL_RESULT</span>
+                <span class="meta" style="color:var(--ink-2);">142ms · 4.3 KB</span>
+              </div>
+              <div class="row">
+                <span class="ts">14:22:12</span>
+                <span><span class="dot mint"></span></span>
+                <span class="typ">TOOL_CALL</span>
+                <span class="meta" style="color:var(--ink-2);">grep · "useEffect"</span>
+              </div>
+              <div class="row">
+                <span class="ts">14:22:12</span>
+                <span><span class="dot coral"></span></span>
+                <span class="typ">ERROR</span>
+                <span class="meta" style="color:#9b2f2f;">⚠ rate_limit · backoff 2s</span>
+              </div>
+              <div class="row">
+                <span class="ts">14:22:14</span>
+                <span><span class="dot mint"></span></span>
+                <span class="typ">TOOL_RESULT</span>
+                <span class="meta" style="color:var(--ink-2);">12 hits · 84ms</span>
+              </div>
+              <div class="row">
+                <span class="ts">14:22:14</span>
+                <span><span class="dot accent"></span></span>
+                <span class="typ">ASSISTANT</span>
+                <span class="meta" style="color:var(--ink-2);">streaming…</span>
+              </div>
+              <div class="row">
+                <span class="ts">14:22:18</span>
+                <span><span class="dot gray"></span></span>
+                <span class="typ">COMPACTION</span>
+                <span class="meta" style="color:var(--ink-2);">12 evts · 14.2k → 5.8k tok</span>
+              </div>
+            </div>
+
+            <!-- RHS: inspector -->
+            <aside class="rhs">
+              <h5>Inspector · evt#5</h5>
+              <div class="kv"><span class="k">type:</span> <span class="v">tool_call</span></div>
+              <div class="kv"><span class="k">id:</span> <span class="v">tc_42a</span></div>
+              <div class="kv"><span class="k">tool:</span> <span class="v">read_file</span></div>
+              <div class="kv"><span class="k">status:</span> <span class="v">complete</span></div>
+              <div class="kv"><span class="k">dur:</span> <span class="v">142ms</span></div>
+
+              <h5 style="margin-top:12px;">Input</h5>
+              <div class="codebox" style="font-size:10px;">
+                <div class="ln"><span class="gutter">›</span><div class="skel" style="width:80%"></div></div>
+                <div class="ln"><span class="gutter">›</span><div class="skel" style="width:60%"></div></div>
+              </div>
+
+              <h5 style="margin-top:12px;">Output</h5>
+              <div class="codebox" style="font-size:10px;">
+                <div class="ln"><span class="gutter">1</span><div class="skel" style="width:70%"></div></div>
+                <div class="ln"><span class="gutter">2</span><div class="skel" style="width:55%"></div></div>
+                <div class="ln"><span class="gutter">3</span><div class="skel" style="width:80%"></div></div>
+                <div class="ln"><span class="gutter">4</span><div class="skel" style="width:45%"></div></div>
+              </div>
+
+              <div class="row" style="gap:6px; margin-top:10px;">
+                <span class="btn tiny">copy raw</span>
+                <span class="btn tiny ghost">↗ jump</span>
+              </div>
+            </aside>
+
+          </div>
+        </div>
+
+        <div class="note arrow-note" style="margin-top:10px;">
+          tool req &amp; result are separate rows · system visible · raw payloads on the right
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================
+       OPTIONAL: input components & containers
+       ======================================================== -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">6.4</span>
+      <span class="sec-title">Optional input components</span>
+      <span class="sec-sub">separate entry point</span>
+    </div>
+
+    <div class="grid c3">
+      <div class="wf">
+        <span class="label">&lt;MessageInput&gt;</span>
+        <p class="desc">Textarea · attachments · slash-command hooks.</p>
+        <div style="border:1.5px solid var(--ink); border-radius:6px; padding:10px;">
+          <div class="row" style="gap:6px; margin-bottom:8px;">
+            <span class="pill gray">/help</span>
+            <span class="pill gray">/model</span>
+          </div>
+          <div class="bar w-90" style="margin-bottom:6px;"></div>
+          <div class="bar w-3/4"></div>
+          <div class="row between" style="margin-top:10px;">
+            <span class="btn tiny ghost">📎 attach</span>
+            <span class="btn tiny fill">send ↑</span>
+          </div>
+        </div>
+      </div>
+      <div class="wf">
+        <span class="label">&lt;StopButton&gt;</span>
+        <p class="desc">Cancels the in-flight request.</p>
+        <div class="row" style="justify-content:center; padding: 24px 0;">
+          <span class="btn fill" style="background:#cc4b4b; border-color:#cc4b4b;">■ stop</span>
+        </div>
+      </div>
+      <div class="wf">
+        <span class="label">&lt;RegenerateButton&gt;</span>
+        <p class="desc">Re-runs the last assistant turn.</p>
+        <div class="row" style="justify-content:center; padding: 24px 0;">
+          <span class="btn">↻ regenerate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="note" style="text-align:center; margin-top:48px; color:var(--ink-3);">
+    end · primaries → secondaries → containers → modes
+  </div>
+
+</div>
+
+</body>
+</html>

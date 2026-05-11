@@ -1,0 +1,1306 @@
+/* ===========================================================
+   Agentflow · Secondary component styles
+   ToolDisplay · UserMessage · AssistantMessage · misc
+   =========================================================== */
+
+/* ---------- shared ---------- */
+.ar-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--fg-3);
+  flex: 0 0 auto;
+}
+.ar-dot.accent { background: var(--accent-1); }
+.ar-dot.success { background: var(--success); }
+.ar-dot.warning { background: var(--warning); }
+.ar-dot.danger { background: var(--danger); }
+.ar-dot.muted { background: var(--fg-4); }
+.ar-dot.pulse { animation: ar-pulse 1.4s ease-in-out infinite; }
+@keyframes ar-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--accent-1); }
+  50% { opacity: 0.6; box-shadow: 0 0 0 5px transparent; }
+}
+
+.ar-meta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-3);
+}
+
+.ar-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-pill);
+  padding: 3px 10px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-2);
+}
+
+/* ---------- ToolDisplay ---------- */
+.ar-tool {
+  background: var(--bg-2);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-3);
+  overflow: hidden;
+  font-size: var(--fs-13);
+}
+.ar-tool-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  user-select: none;
+  background: transparent;
+  border: 0;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: var(--fg-1);
+}
+.ar-tool-head:hover { background: var(--bg-3); }
+.ar-tool-head .tname {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--fg-1);
+  flex: 0 0 auto;
+}
+/* Request / Result distinction — rendered as a small eyebrow on the
+ * top-left of the tool card, matching the AssistantMessage flat header so an
+ * evaluator scrolling the timeline can tell input cards from result cards
+ * at a glance. */
+.ar-tool-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+}
+.ar-tool-eyebrow {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-2);
+  margin-bottom: 8px;
+}
+.ar-tool-head .summary {
+  font-family: var(--font-mono);
+  color: var(--fg-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--fs-12);
+}
+.ar-tool-head .meta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-3);
+  flex: 0 0 auto;
+}
+.ar-tool-head .chev {
+  color: var(--fg-3);
+  transition: transform var(--dur-fast) var(--ease-out);
+  flex: 0 0 auto;
+}
+.ar-tool.open .ar-tool-head .chev { transform: rotate(90deg); }
+
+.ar-tool-head.permission-pending {
+  background: var(--warning-soft);
+}
+.ar-tool-perm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.04em;
+  flex: 0 0 auto;
+}
+.ar-tool-perm-badge.perm-pending {
+  background: var(--warning-soft);
+  color: var(--warning-soft-fg);
+  border: 1px solid var(--warning);
+}
+.ar-tool-perm-badge.perm-denied {
+  background: var(--danger-soft);
+  color: var(--danger-soft-fg);
+  border: 1px solid var(--danger);
+}
+.ar-tool-perm-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+.ar-tool-perm-allow,
+.ar-tool-perm-deny {
+  appearance: none;
+  font: inherit;
+  font-size: var(--fs-12);
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: var(--radius-2);
+  cursor: pointer;
+  border: 1px solid var(--border-2);
+}
+.ar-tool-perm-allow {
+  background: var(--accent-1);
+  color: var(--fg-on-accent);
+  border-color: var(--accent-1);
+}
+.ar-tool-perm-allow:hover {
+  background: var(--accent-1-hover);
+  border-color: var(--accent-1-hover);
+}
+.ar-tool-perm-deny {
+  background: var(--bg-2);
+  color: var(--fg-2);
+}
+.ar-tool-perm-deny:hover {
+  background: var(--danger-soft);
+  color: var(--danger-soft-fg);
+  border-color: var(--danger);
+}
+
+.ar-tool-head.error,
+.ar-tool.error .ar-tool-head { background: var(--danger-soft); }
+.ar-tool-head.error .tname,
+.ar-tool-head.error .summary,
+.ar-tool-head.error .meta,
+.ar-tool.error .ar-tool-head .tname,
+.ar-tool.error .ar-tool-head .summary,
+.ar-tool.error .ar-tool-head .meta { color: var(--danger-soft-fg); }
+
+.ar-tool-body {
+  padding: 12px 14px 14px;
+  border-top: 1px dashed var(--border-1);
+  background: var(--bg-1);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow: auto;
+}
+
+.ar-tool-section .ar-tool-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-3);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  margin-bottom: 6px;
+}
+.ar-tool-section .ar-tool-label.danger { color: var(--danger); }
+.ar-tool .ar-code.danger { border-color: var(--danger); }
+
+/* ---------- ToolDisplay.Chips / Chip ---------- */
+.ar-tool-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.ar-tool-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg-2);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-pill);
+  padding: 2px 10px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-2);
+  line-height: 1.4;
+}
+.ar-tool-chip .label { font-weight: 500; color: var(--fg-2); }
+.ar-tool-chip .value {
+  color: var(--fg-1);
+  font-weight: 600;
+  margin-left: 2px;
+}
+.ar-tool-chip .label + .value::before {
+  content: ":";
+  color: var(--fg-3);
+  font-weight: 400;
+  margin-right: 4px;
+}
+.ar-tool-chip.tone-accent {
+  background: var(--accent-1-soft);
+  border-color: var(--accent-1);
+  color: var(--accent-1-soft-fg);
+}
+.ar-tool-chip.tone-accent .label,
+.ar-tool-chip.tone-accent .value { color: var(--accent-1-soft-fg); }
+.ar-tool-chip.tone-success {
+  background: var(--success-soft);
+  border-color: var(--success);
+  color: var(--success-soft-fg);
+}
+.ar-tool-chip.tone-success .label,
+.ar-tool-chip.tone-success .value { color: var(--success-soft-fg); }
+.ar-tool-chip.tone-danger {
+  background: var(--danger-soft);
+  border-color: var(--danger);
+  color: var(--danger-soft-fg);
+}
+.ar-tool-chip.tone-danger .label,
+.ar-tool-chip.tone-danger .value { color: var(--danger-soft-fg); }
+
+/* ---------- ToolDisplay.ExitInfo ---------- */
+.ar-tool-exitinfo {
+  background: var(--danger-soft);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-3);
+  overflow: hidden;
+  color: var(--danger-soft-fg);
+}
+.ar-tool-exitinfo-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--danger) 50%, transparent);
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+}
+.ar-tool-exitinfo-head .cmd {
+  font-weight: 600;
+  color: var(--danger-soft-fg);
+}
+.ar-tool-exitinfo-head .exit {
+  font-weight: 600;
+  color: var(--danger-soft-fg);
+  background: rgba(0, 0, 0, 0.18);
+  padding: 1px 8px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.04em;
+}
+.ar-tool-exitinfo-stderr {
+  margin: 0;
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  line-height: var(--lh-snug);
+  color: var(--danger-soft-fg);
+  white-space: pre-wrap;
+  overflow-x: auto;
+  background: rgba(0, 0, 0, 0.10);
+}
+
+/* error inset (used inside an errored tool body) */
+.ar-err-inset {
+  display: flex;
+  gap: 12px;
+  background: var(--danger-soft);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-2);
+  padding: 12px 14px;
+  color: var(--danger-soft-fg);
+  align-items: flex-start;
+}
+.ar-err-inset .ico {
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--danger);
+  color: var(--fg-on-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+.ar-err-inset .grow { flex: 1; min-width: 0; }
+.ar-err-inset .err-title { font-weight: 600; color: var(--danger-soft-fg); margin-bottom: 2px; }
+.ar-err-inset .err-detail {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--danger-soft-fg);
+  opacity: 0.85;
+}
+
+/* variant helpers — grep, glob, search */
+.ar-grep-file {
+  font-family: var(--font-mono);
+  font-size: var(--fs-13);
+  font-weight: 600;
+  color: var(--fg-2);
+  margin-bottom: 4px;
+}
+.ar-more-row {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-3);
+  text-align: center;
+  padding: 6px;
+  border-top: 1px dashed var(--border-1);
+  margin-top: 4px;
+}
+
+.ar-glob-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  font-family: var(--font-mono);
+  font-size: var(--fs-13);
+}
+.ar-glob-list > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border-1);
+  color: var(--fg-2);
+}
+.ar-glob-list > div:last-child { border-bottom: 0; }
+.ar-glob-list .meta { color: var(--fg-3); }
+
+.ar-srch-results { display: flex; flex-direction: column; gap: 12px; }
+.ar-srch-result {
+  border-left: 3px solid var(--accent-1);
+  padding: 4px 12px;
+}
+.ar-srch-result .title {
+  font-weight: 600;
+  font-size: var(--fs-14);
+  color: var(--accent-1);
+  margin-bottom: 2px;
+}
+.ar-srch-result .url {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--success);
+  margin-bottom: 6px;
+  word-break: break-all;
+}
+.ar-srch-result .snippet {
+  color: var(--fg-2);
+  font-size: var(--fs-13);
+  line-height: var(--lh-relaxed);
+}
+
+/* ---------- UserMessage ---------- */
+.ar-user-msg { display: flex; justify-content: flex-end; }
+.ar-user-msg .body {
+  background: var(--bg-2);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-3);
+  padding: 12px 16px;
+  max-width: 75%;
+  position: relative;
+  min-width: 0;
+}
+.ar-user-msg .name {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-3);
+  margin-bottom: 6px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+.ar-user-msg .content { color: var(--fg-1); line-height: var(--lh-relaxed); }
+.ar-user-msg .content p { margin: 0 0 8px; }
+.ar-user-msg .content p:last-child { margin-bottom: 0; }
+.ar-user-msg .attachments {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.ar-user-msg .attachments .ar-imgblock { max-width: 220px; }
+.ar-user-msg .body.collapsed .content { max-height: var(--ar-collapsed-h, 160px); overflow: hidden; }
+.ar-user-msg .body.collapsed { padding-bottom: 28px; }
+.ar-user-msg .show-more {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, var(--bg-2) 60%);
+  border: 0;
+  border-bottom-left-radius: var(--radius-3);
+  border-bottom-right-radius: var(--radius-3);
+  padding: 8px;
+  font: inherit;
+  font-size: var(--fs-12);
+  color: var(--fg-2);
+  cursor: pointer;
+}
+.ar-user-msg .show-more:hover { color: var(--fg-1); }
+
+/* flat variant — no bubble, full-width, used in devtool mode */
+.ar-user-msg.flat {
+  display: block;
+  justify-content: stretch;
+}
+.ar-user-msg.flat .body {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  max-width: none;
+  padding: 0;
+  width: 100%;
+}
+.ar-user-msg.flat .name {
+  margin-bottom: 8px;
+}
+.ar-user-msg.flat .body.collapsed {
+  padding-bottom: 24px;
+}
+
+/* ---------- AssistantMessage ---------- */
+.ar-asst-msg { display: flex; gap: 14px; align-items: flex-start; }
+.ar-asst-msg .avatar {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border-radius: 50%;
+  background: var(--accent-1-soft);
+  color: var(--accent-1-soft-fg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: var(--fs-13);
+  border: 1px solid var(--border-1);
+}
+.ar-asst-msg .body { flex: 1; min-width: 0; }
+.ar-asst-msg .head {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.ar-asst-msg .aname { font-weight: 600; color: var(--fg-1); }
+.ar-asst-msg .text > .ar-md > p:last-child { margin-bottom: 0; }
+.ar-asst-msg .text .ar-tool { margin: 8px 0; }
+
+/* AssistantMessage flat variant — no avatar */
+.ar-asst-msg.flat .body { width: 100%; }
+.ar-asst-msg.flat .head {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-bottom: 8px;
+}
+.ar-asst-msg.flat .head .aname {
+  font-weight: 600;
+  color: var(--fg-2);
+  font-size: var(--fs-12);
+  letter-spacing: var(--tracking-caps);
+}
+
+.ar-caret {
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  background: var(--accent-1);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: ar-blink 1s step-end infinite;
+}
+@keyframes ar-blink { 50% { opacity: 0; } }
+
+/* Streaming caret at the end of the last markdown child. */
+.ar-asst-msg.streaming .text .ar-md > *:last-child::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  background: var(--accent-1);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: ar-blink 1s step-end infinite;
+}
+
+/* ===========================================================
+   ThinkingDisplay
+   =========================================================== */
+.ar-thinking-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--purple-soft);
+  color: var(--purple-soft-fg);
+  border: 1px solid var(--purple);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  font: inherit;
+  font-size: var(--fs-13);
+  cursor: pointer;
+}
+.ar-thinking-pill:hover { filter: brightness(1.1); }
+
+.ar-thinking-block {
+  background: var(--purple-soft);
+  border-left: 3px solid var(--purple);
+  border-radius: 0 var(--radius-3) var(--radius-3) 0;
+  color: var(--purple-soft-fg);
+  overflow: hidden;
+}
+.ar-thinking-head {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  padding: 10px 16px 6px;
+  cursor: pointer;
+  color: inherit;
+}
+.ar-thinking-head:hover { filter: brightness(1.1); }
+.ar-thinking-head .eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  opacity: 0.85;
+  font-weight: 600;
+}
+.ar-thinking-body {
+  padding: 0 16px 12px;
+}
+.ar-thinking-body .ar-md { font-style: italic; line-height: var(--lh-relaxed); color: inherit; }
+.ar-thinking-body .ar-md a { color: inherit; }
+.ar-thinking-body .ar-md code {
+  background: rgba(0,0,0,0.15);
+  border-color: transparent;
+  color: inherit;
+}
+
+/* ===========================================================
+   CompactionDisplay
+   =========================================================== */
+.ar-compaction-rule {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--fg-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  width: 100%;
+  padding: 8px 0;
+  text-align: center;
+}
+.ar-compaction-rule:hover { color: var(--fg-1); }
+.ar-compaction-rule .line {
+  flex: 1;
+  border-top: 1px dashed var(--border-1);
+}
+.ar-compaction-rule .num { color: var(--fg-1); font-weight: 600; }
+
+.ar-compaction-expanded {
+  background: var(--bg-2);
+  border: 1px dashed var(--border-2);
+  border-radius: var(--radius-3);
+  padding: 14px 16px;
+}
+.ar-compaction-head {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.ar-compaction-toggle {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+}
+.ar-compaction-toggle .badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--purple-soft);
+  color: var(--purple-soft-fg);
+  letter-spacing: 0.04em;
+}
+.ar-compaction-head .meta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-3);
+}
+.ar-compaction-body {
+  font-size: var(--fs-13);
+}
+.ar-compaction-ids {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.ar-compaction-id {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-3);
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+  border: 0;
+  cursor: pointer;
+}
+.ar-compaction-id:not([disabled]):hover {
+  background: var(--accent-1-soft);
+  color: var(--accent-1-soft-fg);
+}
+.ar-compaction-id[disabled] { cursor: default; }
+.ar-compaction-id-more { background: transparent; }
+
+/* ===========================================================
+   ErrorDisplay
+   =========================================================== */
+.ar-err {
+  display: flex;
+  gap: 12px;
+  background: var(--danger-soft);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-3);
+  padding: 12px 14px;
+  color: var(--danger-soft-fg);
+  align-items: flex-start;
+}
+.ar-err.inset { border-radius: var(--radius-2); }
+.ar-err .ico {
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--danger);
+  color: var(--fg-on-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+.ar-err .grow { flex: 1; min-width: 0; }
+.ar-err .err-title { font-weight: 600; color: var(--danger-soft-fg); }
+.ar-err .err-detail {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--danger-soft-fg);
+  margin-top: 4px;
+  opacity: 0.85;
+}
+.ar-stack-toggle {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--danger-soft-fg);
+  cursor: pointer;
+  padding: 6px 0 0;
+  opacity: 0.85;
+}
+.ar-stack-frames {
+  margin: 8px 0 0;
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: var(--radius-1);
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  line-height: var(--lh-snug);
+  color: var(--danger-soft-fg);
+  opacity: 0.9;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+.ar-err-retry {
+  appearance: none;
+  background: var(--danger);
+  color: var(--fg-on-accent);
+  border: 0;
+  padding: 6px 12px;
+  border-radius: var(--radius-2);
+  font: inherit;
+  font-size: var(--fs-13);
+  font-weight: 500;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+/* ===========================================================
+   SystemMessageDisplay
+   =========================================================== */
+.ar-sys-hidden {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-4);
+  text-align: center;
+  padding: 8px;
+  border: 1px dashed var(--border-1);
+  border-radius: var(--radius-2);
+  font-style: italic;
+}
+.ar-sys-block {
+  background: var(--bg-2);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-3);
+  overflow: hidden;
+}
+.ar-sys-block .h {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border-1);
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+}
+.ar-sys-block .h .badge {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-3);
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+}
+.ar-sys-block .h .meta { color: var(--fg-3); }
+.ar-sys-block .ar-sys-body {
+  padding: 12px 16px;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-2);
+  line-height: var(--lh-relaxed);
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ===========================================================
+   Conversation shells — chat mode + devtool mode
+   =========================================================== */
+
+.ar-frame {
+  background: var(--bg-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-4);
+  overflow: hidden;
+  box-shadow: var(--shadow-2);
+}
+.ar-frame-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border-1);
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+}
+.ar-frame-bar .lite {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bg-3);
+}
+.ar-frame-title { color: var(--fg-2); margin-left: 6px; }
+
+/* ---------- chat shell ---------- */
+.ar-chat-shell {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  height: 720px;
+  position: relative;
+}
+.ar-chat-side {
+  background: var(--bg-2);
+  border-right: 1px solid var(--border-1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 8px;
+  gap: 8px;
+}
+.ar-chat-side .ic {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-2);
+  color: var(--fg-3);
+  font-size: var(--fs-16);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+}
+.ar-chat-side .ic:hover { background: var(--bg-3); color: var(--fg-1); }
+.ar-chat-side .ic.active { background: var(--bg-3); color: var(--fg-1); }
+
+.ar-chat-main {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;     /* the scroll container — has the fixed grid-row height */
+}
+.ar-chat-thread {
+  padding: 28px 32px;
+  max-width: 820px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.ar-chat-thread > * { flex-shrink: 0; }  /* don't squash long messages */
+
+/* ---------- devtool flat-timeline shell ---------- */
+.ar-devtool-shell {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  height: 720px;
+  background: var(--bg-1);
+  position: relative;
+}
+.ar-devtool-side {
+  background: var(--bg-2);
+  border-right: 1px solid var(--border-1);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  overflow-y: auto;
+  min-height: 0;
+}
+.ar-devtool-side h5 {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-3);
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  font-weight: 600;
+}
+.ar-devtool-main {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+}
+.ar-devtool-thread {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.ar-devtool-thread > * { flex-shrink: 0; }
+
+/* a thin separator between devtool events to make the timeline scannable */
+.ar-devtool-thread > * + * {
+  position: relative;
+}
+
+/* ---------- inspector (3-pane debug) shell ---------- */
+.ar-dev-shell {
+  display: grid;
+  grid-template-columns: 240px 1fr 360px;
+  height: 720px;
+  font-size: var(--fs-13);
+}
+.ar-dev-side, .ar-dev-inspector {
+  background: var(--bg-2);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  overflow-y: auto;
+}
+.ar-dev-side { border-right: 1px solid var(--border-1); }
+.ar-dev-inspector { border-left: 1px solid var(--border-1); }
+.ar-dev-side h5,
+.ar-dev-inspector h5 {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-3);
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  font-weight: 600;
+}
+
+.ar-kv {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  min-width: 0;
+}
+.ar-kv > div {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: baseline;
+  min-width: 0;
+}
+.ar-kv span { color: var(--fg-3); flex: 0 0 auto; }
+.ar-kv b {
+  color: var(--fg-1);
+  font-weight: 500;
+  /* Truncate long values (e.g. file paths) so the metadata strip stays
+     scannable. Hover or click the inspector pane for the full payload. */
+  min-width: 0;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ar-filters { display: flex; flex-direction: column; gap: 4px; }
+.ar-filt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  border-radius: var(--radius-1);
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-2);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  width: 100%;
+  text-align: left;
+}
+.ar-filt:hover { background: var(--bg-3); }
+.ar-filt .ck {
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--border-2);
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: transparent;
+  flex: 0 0 14px;
+}
+.ar-filt .ck.on {
+  background: var(--accent-1);
+  color: var(--fg-on-accent);
+  border-color: var(--accent-1);
+}
+.ar-filt .count { margin-left: auto; color: var(--fg-3); }
+
+.ar-dev-events {
+  background: var(--bg-1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.ar-dev-events-head,
+.ar-dev-event {
+  display: grid;
+  grid-template-columns: 110px 16px 110px 1fr 64px;
+  gap: 10px;
+  padding: 8px 16px;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  border-bottom: 1px solid var(--border-1);
+}
+.ar-dev-events-head {
+  background: var(--bg-2);
+  color: var(--fg-3);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.ar-dev-event {
+  cursor: pointer;
+  background: transparent;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  border-bottom: 1px solid var(--border-1);
+  text-align: left;
+}
+.ar-dev-event:hover { background: var(--bg-2); }
+.ar-dev-event.selected {
+  background: var(--accent-1-soft);
+  border-left: 3px solid var(--accent-1);
+  padding-left: 13px;
+}
+.ar-dev-event .ts { color: var(--fg-3); }
+.ar-dev-event .typ { font-weight: 600; }
+.ar-dev-event .typ.sys { color: var(--fg-3); }
+.ar-dev-event .typ.user { color: var(--accent-1); }
+.ar-dev-event .typ.asst { color: var(--accent-1-soft-fg); }
+.ar-dev-event .typ.thinking { color: var(--purple); }
+.ar-dev-event .typ.tool { color: var(--success); }
+.ar-dev-event .typ.err { color: var(--danger); }
+.ar-dev-event .typ.compaction { color: var(--fg-3); }
+.ar-dev-event .typ.citation { color: var(--info); }
+.ar-dev-event .prev {
+  color: var(--fg-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ar-dev-event .dur { color: var(--fg-3); text-align: right; }
+
+.ar-json {
+  background: var(--code-bg);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-2);
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--code-fg);
+  white-space: pre-wrap;
+  margin: 0;
+  line-height: var(--lh-snug);
+  overflow-x: auto;
+}
+
+@media (max-width: 1100px) {
+  .ar-dev-shell { grid-template-columns: 200px 1fr; }
+  .ar-dev-inspector { display: none; }
+  .ar-dev-events-head,
+  .ar-dev-event { grid-template-columns: 96px 14px 90px 1fr; }
+  .ar-dev-event .dur,
+  .ar-dev-events-head > span:last-child { display: none; }
+}
+@media (max-width: 700px) {
+  .ar-chat-shell { grid-template-columns: 1fr; }
+  .ar-chat-side { display: none; }
+  .ar-dev-shell { grid-template-columns: 1fr; }
+  .ar-dev-side { display: none; }
+  .ar-devtool-shell { grid-template-columns: 1fr; }
+  .ar-devtool-side { display: none; }
+}
+
+/* ---------- ToolCallsBundle ---------- */
+.ar-tcb {
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-3);
+  background: var(--bg-1);
+  overflow: hidden;
+}
+.ar-tcb-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--bg-2);
+  border: 0;
+  border-bottom: 1px solid transparent;
+  width: 100%;
+  cursor: pointer;
+  font: inherit;
+  font-family: var(--font-sans);
+  font-size: var(--fs-13);
+  color: var(--fg-1);
+  text-align: left;
+}
+.ar-tcb.open .ar-tcb-head { border-bottom-color: var(--border-1); }
+.ar-tcb-head:hover { background: var(--bg-3); }
+.ar-tcb-title {
+  font-weight: 600;
+  color: var(--fg-2);
+  flex: 1 1 auto;
+}
+.ar-tcb-count {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-3);
+  background: var(--bg-3);
+  padding: 1px 8px;
+  border-radius: var(--radius-pill);
+}
+.ar-tcb-chev {
+  color: var(--fg-3);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.ar-tcb.open .ar-tcb-chev { transform: rotate(90deg); }
+
+.ar-tcb-summary {
+  margin: 0;
+  padding: 8px 14px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ar-tcb-summary li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-2);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.ar-tcb-summary li .tname {
+  font-weight: 600;
+  color: var(--fg-1);
+  flex: 0 0 auto;
+}
+.ar-tcb-summary li .tinput {
+  color: var(--fg-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ar-tcb-body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ---------- AssistantMessage flat outer container ---------- */
+.ar-asst-msg.flat .body { width: 100%; }
+.ar-asst-msg.flat .ar-asst-flat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-3);
+  background: var(--bg-1);
+}
+.ar-asst-msg.flat .ar-asst-flat-card .text {
+  position: relative;
+}
+
+/* ---------- ConversationSearch toolbar + match highlights ---------- */
+.ar-search-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ar-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-2);
+  padding: 6px 10px;
+  font-size: var(--fs-13);
+}
+.ar-search-icon {
+  color: var(--fg-3);
+  font-size: var(--fs-14);
+}
+.ar-search-input {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: var(--fg-1);
+  font: inherit;
+  font-size: var(--fs-13);
+  min-width: 0;
+}
+.ar-search-input::placeholder { color: var(--fg-4); }
+.ar-search-count {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-3);
+  flex: 0 0 auto;
+}
+.ar-search-nav {
+  appearance: none;
+  background: var(--bg-2);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-1);
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--fg-2);
+}
+.ar-search-nav:hover:not(:disabled) {
+  background: var(--bg-3);
+  color: var(--fg-1);
+}
+.ar-search-nav:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ar-event { /* transparent by default — wrapper layout passthrough */ }
+.ar-event-match {
+  position: relative;
+  outline: 1px solid var(--accent-1-soft);
+  border-radius: var(--radius-2);
+}
+.ar-event-current {
+  outline-color: var(--accent-1);
+  background: var(--accent-1-soft);
+  border-radius: var(--radius-2);
+}
+
+/* ---------- ScrollToBottom (live-tail jump button) ---------- */
+.ar-scroll-bottom {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-2);
+  color: var(--fg-1);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  font: inherit;
+  font-size: var(--fs-13);
+  cursor: pointer;
+  box-shadow: var(--shadow-2);
+  z-index: 5;
+}
+.ar-scroll-bottom:hover { background: var(--bg-3); }
+
+/* tool-call name pill (for toolCallDisplay='name-only') */
+.ar-tool-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-2);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-pill);
+  padding: 3px 10px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-2);
+  margin: 4px 4px 4px 0;
+}

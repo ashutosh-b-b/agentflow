@@ -1,0 +1,139 @@
+/* Demo showcase page styles — mirrors the spec-card layout from mockups.html
+   so the React components render in the same context. */
+
+@import url("./primitives.css");
+
+body {
+  background: var(--bg-0);
+  color: var(--fg-1);
+  font-family: var(--font-sans);
+  margin: 0;
+  font-size: var(--fs-14);
+  line-height: var(--lh-normal);
+}
+
+.page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px 32px 96px;
+}
+
+.doc-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-1);
+}
+.doc-head h1 { font-size: var(--fs-32); margin: 0 0 4px; }
+.doc-head .sub { color: var(--fg-3); font-size: var(--fs-14); }
+
+.theme-switch {
+  display: inline-flex;
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-2);
+  background: var(--bg-1);
+  padding: 2px;
+}
+.theme-switch button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--fg-2);
+  padding: 6px 14px;
+  font: inherit;
+  font-size: var(--fs-13);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.theme-switch button.active {
+  background: var(--bg-3);
+  color: var(--fg-1);
+}
+
+section { margin-bottom: 56px; }
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border-1);
+}
+.sec-num {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  font-weight: 600;
+  color: var(--fg-on-accent);
+  background: var(--accent-1);
+  padding: 3px 8px;
+  border-radius: var(--radius-1);
+  letter-spacing: 0.06em;
+}
+.sec-title { margin: 0; font-size: var(--fs-20); font-weight: 600; }
+.sec-sub { margin-left: auto; color: var(--fg-3); font-size: var(--fs-13); }
+
+.spec {
+  background: var(--bg-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-4);
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+.spec-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 14px 20px;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border-1);
+  flex-wrap: wrap;
+}
+.spec-name {
+  font-family: var(--font-mono);
+  font-size: var(--fs-14);
+  font-weight: 600;
+  color: var(--fg-1);
+}
+.spec-tag {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--accent-1-soft-fg);
+  background: var(--accent-1-soft);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.04em;
+}
+.spec-desc { color: var(--fg-3); font-size: var(--fs-13); flex: 1 1 280px; }
+.spec-body { padding: 24px 20px; background: var(--bg-1); }
+.spec-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 12px 20px;
+  border-top: 1px dashed var(--border-1);
+  background: var(--bg-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-3);
+}
+.spec-foot b { color: var(--fg-2); font-weight: 600; }
+
+.vlabel {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.grid { display: grid; gap: 20px; }
+.grid.c2 { grid-template-columns: 1fr 1fr; }
+
+@media (max-width: 1100px) {
+  .grid.c2 { grid-template-columns: 1fr; }
+}

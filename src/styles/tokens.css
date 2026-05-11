@@ -1,0 +1,312 @@
+/* =========================================================
+   Agentflow Design System — Colors & Typography
+   =========================================================
+   Drop into any HTML page. Defaults to dark mode.
+   Add `data-theme="light"` to <html> or any ancestor to flip.
+   ========================================================= */
+
+/* ---------- Type families ---------- */
+:root {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Type scale (px → rem at 16px base) */
+  --fs-12: 0.75rem;
+  --fs-13: 0.8125rem;
+  --fs-14: 0.875rem;
+  --fs-15: 0.9375rem;
+  --fs-16: 1rem;
+  --fs-18: 1.125rem;
+  --fs-20: 1.25rem;
+  --fs-24: 1.5rem;
+  --fs-28: 1.75rem;
+  --fs-32: 2rem;
+  --fs-40: 2.5rem;
+
+  --lh-tight: 1.2;
+  --lh-snug: 1.35;
+  --lh-normal: 1.5;
+  --lh-relaxed: 1.65;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+  --tracking-caps: 0.06em;
+
+  /* ---------- Spacing ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ---------- Radii (subtle, professional) ---------- */
+  --radius-1: 4px;   /* chips, inline */
+  --radius-2: 6px;   /* buttons, inputs, small cards */
+  --radius-3: 8px;   /* messages, panels */
+  --radius-4: 10px;  /* large cards */
+  --radius-pill: 999px;
+
+  /* ---------- Border weights ---------- */
+  --border-w: 1px;
+  --border-w-strong: 1.5px;
+
+  /* ---------- Motion ---------- */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+  --dur-slow: 260ms;
+}
+
+/* =========================================================
+   DARK THEME (default)
+   Pastel accents on near-black neutrals.
+   ========================================================= */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Surfaces — layered, near-black */
+  --bg-0: #0c0e12;          /* app background */
+  --bg-1: #12151b;          /* primary surface */
+  --bg-2: #181c24;          /* raised surface (cards, panels) */
+  --bg-3: #1f242e;          /* hover / pressed surface */
+  --bg-inset: #0a0c10;      /* sunken (code blocks) */
+
+  /* Foregrounds */
+  --fg-1: #e7eaf0;          /* primary text */
+  --fg-2: #b1b7c3;          /* secondary text */
+  --fg-3: #7c828f;          /* tertiary / metadata */
+  --fg-4: #555b67;          /* disabled */
+  --fg-on-accent: #0c0e12;  /* text on solid accent */
+
+  /* Borders */
+  --border-1: #232833;      /* default */
+  --border-2: #2e3442;      /* stronger */
+  --border-focus: #8aa9ff;
+
+  /* Brand — pastel periwinkle (calm, technical) */
+  --accent-1: #8aa9ff;      /* primary accent */
+  --accent-1-hover: #a3bcff;
+  --accent-1-soft: #1c2440; /* tinted bg */
+  --accent-1-soft-fg: #b8c9ff;
+
+  /* Semantic — pastel */
+  --success: #86d4a3;       /* mint */
+  --success-soft: #15281f;
+  --success-soft-fg: #a8e3bf;
+
+  --warning: #f0c674;       /* honey */
+  --warning-soft: #2c2419;
+  --warning-soft-fg: #f5d59a;
+
+  --danger: #f08a8a;        /* coral */
+  --danger-soft: #2e1a1c;
+  --danger-soft-fg: #f5a8a8;
+
+  --info: #8ad0e8;          /* sky */
+  --info-soft: #142531;
+  --info-soft-fg: #aaddee;
+
+  --purple: #c4a8f0;        /* lavender — for thinking/reasoning */
+  --purple-soft: #221c2e;
+  --purple-soft-fg: #d4bdf5;
+
+  --pink: #f0a8c4;          /* rose — for tools */
+  --pink-soft: #2c1c24;
+  --pink-soft-fg: #f5bdd2;
+
+  /* Code-block syntax */
+  --code-bg: #0a0c10;
+  --code-fg: #d4d8df;
+  --code-comment: #6b7280;
+  --code-keyword: #c4a8f0;  /* lavender */
+  --code-string: #86d4a3;   /* mint */
+  --code-number: #f0c674;   /* honey */
+  --code-fn: #8aa9ff;       /* periwinkle */
+  --code-type: #8ad0e8;     /* sky */
+  --code-tag: #f08a8a;      /* coral */
+  --code-punct: #7c828f;
+
+  /* Diff */
+  --diff-add-bg: rgba(134, 212, 163, 0.12);
+  --diff-add-gutter: rgba(134, 212, 163, 0.28);
+  --diff-add-fg: #c4ebd2;
+  --diff-del-bg: rgba(240, 138, 138, 0.12);
+  --diff-del-gutter: rgba(240, 138, 138, 0.28);
+  --diff-del-fg: #f5c0c0;
+
+  /* Shadows — subtle, dark-mode-appropriate */
+  --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 2px 4px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-3: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-focus: 0 0 0 3px rgba(138, 169, 255, 0.28);
+
+  /* Selection */
+  --selection-bg: rgba(138, 169, 255, 0.28);
+  --selection-fg: #e7eaf0;
+}
+
+/* =========================================================
+   LIGHT THEME
+   Same pastel accents on warm-cool near-white surfaces.
+   ========================================================= */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg-0: #f6f7f9;
+  --bg-1: #ffffff;
+  --bg-2: #fbfbfd;
+  --bg-3: #f0f2f6;
+  --bg-inset: #f3f4f7;
+
+  --fg-1: #1a1d23;
+  --fg-2: #4b5260;
+  --fg-3: #6b7280;
+  --fg-4: #a3a9b4;
+  --fg-on-accent: #ffffff;
+
+  --border-1: #e4e6ec;
+  --border-2: #d2d6de;
+  --border-focus: #4f6ed4;
+
+  --accent-1: #4f6ed4;
+  --accent-1-hover: #3d5ec4;
+  --accent-1-soft: #eaeefb;
+  --accent-1-soft-fg: #2e4ba8;
+
+  --success: #2f9d5f;
+  --success-soft: #e6f6ec;
+  --success-soft-fg: #1f7a48;
+
+  --warning: #b87a14;
+  --warning-soft: #fbf2dd;
+  --warning-soft-fg: #8a5a0b;
+
+  --danger: #cc4b4b;
+  --danger-soft: #fbe9e9;
+  --danger-soft-fg: #9b2f2f;
+
+  --info: #2f88a8;
+  --info-soft: #e3f2f8;
+  --info-soft-fg: #1f6680;
+
+  --purple: #8a5dc4;
+  --purple-soft: #efe8f8;
+  --purple-soft-fg: #6a3fa3;
+
+  --pink: #c4598a;
+  --pink-soft: #f8e6ef;
+  --pink-soft-fg: #9c3d6a;
+
+  --code-bg: #f8f9fb;
+  --code-fg: #1a1d23;
+  --code-comment: #8a8f99;
+  --code-keyword: #8a5dc4;
+  --code-string: #2f9d5f;
+  --code-number: #b87a14;
+  --code-fn: #4f6ed4;
+  --code-type: #2f88a8;
+  --code-tag: #cc4b4b;
+  --code-punct: #6b7280;
+
+  --diff-add-bg: rgba(47, 157, 95, 0.10);
+  --diff-add-gutter: rgba(47, 157, 95, 0.28);
+  --diff-add-fg: #1f7a48;
+  --diff-del-bg: rgba(204, 75, 75, 0.10);
+  --diff-del-gutter: rgba(204, 75, 75, 0.28);
+  --diff-del-fg: #9b2f2f;
+
+  --shadow-1: 0 1px 0 rgba(20, 24, 32, 0.04), 0 1px 2px rgba(20, 24, 32, 0.06);
+  --shadow-2: 0 2px 4px rgba(20, 24, 32, 0.05), 0 6px 16px rgba(20, 24, 32, 0.07);
+  --shadow-3: 0 12px 32px rgba(20, 24, 32, 0.10);
+  --shadow-focus: 0 0 0 3px rgba(79, 110, 212, 0.22);
+
+  --selection-bg: rgba(79, 110, 212, 0.20);
+  --selection-fg: #1a1d23;
+}
+
+/* =========================================================
+   Semantic element styles
+   Page-default treatments. Override per-component as needed.
+   ========================================================= */
+html { font-family: var(--font-sans); color: var(--fg-1); background: var(--bg-0); }
+body { font-size: var(--fs-14); line-height: var(--lh-normal); margin: 0; }
+::selection { background: var(--selection-bg); color: var(--selection-fg); }
+
+h1, h2, h3, h4, h5, h6 { color: var(--fg-1); margin: 0 0 0.5em; font-weight: var(--fw-semibold); letter-spacing: var(--tracking-tight); line-height: var(--lh-tight); }
+h1 { font-size: var(--fs-32); }
+h2 { font-size: var(--fs-24); }
+h3 { font-size: var(--fs-20); }
+h4 { font-size: var(--fs-18); }
+h5 { font-size: var(--fs-16); font-weight: var(--fw-semibold); }
+h6 { font-size: var(--fs-13); font-weight: var(--fw-semibold); text-transform: uppercase; letter-spacing: var(--tracking-caps); color: var(--fg-2); }
+
+p { margin: 0 0 1em; line-height: var(--lh-relaxed); color: var(--fg-1); }
+small { font-size: var(--fs-12); color: var(--fg-3); }
+strong { font-weight: var(--fw-semibold); color: var(--fg-1); }
+em { font-style: italic; }
+
+a { color: var(--accent-1); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color var(--dur-fast) var(--ease-out); }
+a:hover { border-bottom-color: currentColor; }
+
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  font-variant-ligatures: none;
+}
+:not(pre) > code {
+  background: var(--bg-inset);
+  border: var(--border-w) solid var(--border-1);
+  border-radius: var(--radius-1);
+  padding: 0.1em 0.35em;
+  color: var(--fg-1);
+}
+pre {
+  background: var(--code-bg);
+  color: var(--code-fg);
+  border: var(--border-w) solid var(--border-1);
+  border-radius: var(--radius-3);
+  padding: var(--space-4);
+  overflow: auto;
+  line-height: var(--lh-snug);
+}
+
+kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  font-size: var(--fs-12);
+  background: var(--bg-2);
+  border: var(--border-w) solid var(--border-2);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-1);
+  color: var(--fg-2);
+}
+
+hr { border: 0; border-top: var(--border-w) solid var(--border-1); margin: var(--space-6) 0; }
+
+/* Utility — common label */
+.eyebrow {
+  font-size: var(--fs-12);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+*:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+  border-radius: var(--radius-2);
+}
