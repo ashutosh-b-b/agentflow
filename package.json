@@ -1,27 +1,92 @@
 {
   "name": "agentflow",
-  "private": true,
   "version": "0.1.0",
+  "description": "Composable React components for rendering agentic conversations — chat, devtool, inspector views with multi-provider adapters.",
+  "keywords": [
+    "react",
+    "ai",
+    "agent",
+    "chat",
+    "tool-use",
+    "openai",
+    "anthropic",
+    "claude",
+    "components",
+    "ui"
+  ],
+  "license": "MIT",
+  "author": "Ashutosh Bharambe",
+  "homepage": "https://ashutoshbb.me/agentflow/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ashutosh-b-b/agentflow.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ashutosh-b-b/agentflow/issues"
+  },
   "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./adapters": {
+      "import": {
+        "types": "./dist/adapters.d.ts",
+        "default": "./dist/adapters.js"
+      },
+      "require": {
+        "types": "./dist/adapters.d.cts",
+        "default": "./dist/adapters.cjs"
+      }
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsup && node scripts/build-css.mjs",
+    "build:docs": "tsc -b && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc -b --noEmit"
+    "typecheck": "tsc -b --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
   },
   "dependencies": {
     "diff": "^5.2.0",
     "highlight.js": "^11.11.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
     "react-markdown": "^9.0.1",
     "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
     "@types/diff": "^5.2.3",
+    "@types/node": "^25.6.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tsup": "^8.3.5",
     "typescript": "^5.6.3",
     "vite": "^5.4.10"
   }
