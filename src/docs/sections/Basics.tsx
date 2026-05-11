@@ -28,7 +28,7 @@ const SEED_EVENTS: ConversationEvent[] = [
   },
 ];
 
-const QUICKSTART = `import { ConversationView } from "agentflow";
+const QUICKSTART = `import { ConversationView } from "agentflow-ui";
 
 const events = [
   { id: "u0", type: "user_message", status: "complete",

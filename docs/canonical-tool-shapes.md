@@ -195,7 +195,7 @@ Many tools (ripgrep, `git diff`, `cmp`, `jq`) use non-zero exit to signal
 "I produced no output", not failure. Use the `inferIsError` helper:
 
 ```ts
-import { inferIsError } from "agentflow";
+import { inferIsError } from "agentflow-ui";
 
 // ripgrep: exit 0 = matched, 1 = no matches, 2+ = real error
 const isError = inferIsError(rgOutput, { okExitCodes: [0, 1] });

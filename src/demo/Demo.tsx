@@ -111,7 +111,7 @@ type EventDelta =
 `;
 
 const JSON_SAMPLE = `{
-  "name": "agentflow",
+  "name": "agentflow-ui",
   "version": "0.1.0",
   "type": "module",
   "dependencies": {

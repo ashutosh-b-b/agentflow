@@ -59,7 +59,7 @@ const SAMPLE_ANTHROPIC: AnthropicMessage[] = [
 const CUSTOM_ADAPTER = `import {
   type MessageAdapter,
   createAdapterContext,
-} from "agentflow/adapters";
+} from "agentflow-ui/adapters";
 
 interface MyMessage {
   speaker: "human" | "agent";

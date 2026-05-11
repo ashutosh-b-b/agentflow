@@ -11,13 +11,13 @@ Adapters for OpenAI and Anthropic ship out of the box; a 30-line
 `MessageAdapter<TMessage>` covers anything else.
 
 ```bash
-npm install agentflow
+npm install agentflow-ui
 ```
 
 ```tsx
-import { ConversationView } from "agentflow";
-import { openAIToEvents } from "agentflow/adapters";
-import "agentflow/styles.css";
+import { ConversationView } from "agentflow-ui";
+import { openAIToEvents } from "agentflow-ui/adapters";
+import "agentflow-ui/styles.css";
 
 export function App({ messages }) {
   const events = openAIToEvents(messages);
@@ -50,7 +50,7 @@ export function App({ messages }) {
 ## Adapters
 
 ```tsx
-import { openAIToEvents, anthropicToEvents, inferIsError } from "agentflow/adapters";
+import { openAIToEvents, anthropicToEvents, inferIsError } from "agentflow-ui/adapters";
 
 const events = openAIToEvents(messagesFromOpenAI);
 // or:
@@ -60,7 +60,7 @@ const events = anthropicToEvents(messagesFromAnthropic, { system: "..." });
 Writing one for your own format:
 
 ```ts
-import { type MessageAdapter, createAdapterContext } from "agentflow/adapters";
+import { type MessageAdapter, createAdapterContext } from "agentflow-ui/adapters";
 
 export function myFormatToEvents(messages: MyMessage[]) {
   const ctx = createAdapterContext();
@@ -92,7 +92,7 @@ rest of your app.
 ## Custom tool displays
 
 ```tsx
-import { ToolDisplay, type ToolVariantProps } from "agentflow";
+import { ToolDisplay, type ToolVariantProps } from "agentflow-ui";
 
 function VectorSearchDisplay({ event, mode = "merged", ...rest }: ToolVariantProps) {
   // ...render whatever you want from event.input / event.output...

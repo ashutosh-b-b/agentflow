@@ -64,7 +64,7 @@ const CODE = `import {
   ConversationView,
   type AssistantMessageProps,
   MarkdownDisplay,
-} from "agentflow";
+} from "agentflow-ui";
 
 function BrandedAssistantMessage({ event }: AssistantMessageProps) {
   return (

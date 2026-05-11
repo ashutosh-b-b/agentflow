@@ -238,7 +238,7 @@ const SIDEBAR_CONVERSATIONS: ConvSummary[] = [
 const RECIPE = `// Your app shell handles the chrome — header, conversation list,
 // auth, etc. ConversationView is just the main pane.
 
-import { ConversationView } from "agentflow";
+import { ConversationView } from "agentflow-ui";
 
 function AppShell() {
   return (

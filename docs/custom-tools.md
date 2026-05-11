@@ -15,7 +15,7 @@ A function component that consumes `ToolVariantProps<Input, Output>` and
 returns a `<ToolDisplay>` with the right header summary and body sections.
 
 ```ts
-import type { ToolVariantProps } from "agentflow";
+import type { ToolVariantProps } from "agentflow-ui";
 
 interface VectorSearchInput  { query: string; topK?: number }
 interface VectorSearchOutput { hits: { id: string; score: number; snippet: string }[] }
@@ -56,7 +56,7 @@ import {
   CodeDisplay,
   ErrorInset,
   type ToolVariantProps,
-} from "agentflow";
+} from "agentflow-ui";
 
 interface VectorSearchInput  { query: string; topK?: number }
 interface VectorSearchOutput { hits: { id: string; score: number; snippet: string }[] }

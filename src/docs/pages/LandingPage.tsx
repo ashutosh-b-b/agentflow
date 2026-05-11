@@ -37,8 +37,8 @@ const HERO_MESSAGES: OpenAIMessage[] = [
   },
 ];
 
-const QUICK_START = `import { ConversationView } from "agentflow";
-import { openAIToEvents } from "agentflow/adapters";
+const QUICK_START = `import { ConversationView } from "agentflow-ui";
+import { openAIToEvents } from "agentflow-ui/adapters";
 
 export function App({ messages }) {
   const events = openAIToEvents(messages);

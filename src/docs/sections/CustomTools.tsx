@@ -144,7 +144,7 @@ const CODE = `import {
   CodeDisplay,
   ErrorInset,
   type ToolVariantProps,
-} from "agentflow";
+} from "agentflow-ui";
 
 interface JuliaInput  { code: string; package_imports?: string[] }
 interface JuliaOutput { result: string; stdout?: string; errored?: boolean; error?: string }

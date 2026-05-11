@@ -1,5 +1,5 @@
 {
-  "name": "agentflow",
+  "name": "agentflow-ui",
   "version": "0.1.0",
   "description": "Composable React components for rendering agentic conversations — chat, devtool, inspector views with multi-provider adapters.",
   "keywords": [

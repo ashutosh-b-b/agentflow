@@ -81,7 +81,7 @@ import {
   CodeDisplay,
   ErrorInset,
   type ToolVariantProps,
-} from "agentflow";
+} from "agentflow-ui";
 
 import type { JuliaInput, JuliaOutput } from "./julia";
 
@@ -189,7 +189,7 @@ A few notes on what this gets you for free:
 ## 3. Register it
 
 ```tsx
-import { ConversationView } from "agentflow";
+import { ConversationView } from "agentflow-ui";
 import { JuliaToolDisplay } from "./my-tools/JuliaToolDisplay";
 
 export function App({ events }) {

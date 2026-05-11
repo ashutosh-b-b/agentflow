@@ -67,7 +67,7 @@ for f in src/**/*.ts; do
   fi
 done`,
   json: `{
-  "name": "agentflow",
+  "name": "agentflow-ui",
   "version": "0.1.0",
   "dependencies": {
     "highlight.js": "^11"
@@ -151,7 +151,7 @@ const SNIPPET_HLJS_LANGUAGE = `// Add a language that hljs already supports — 
 // it once at app startup.
 
 import julia from "highlight.js/lib/languages/julia";
-import { registerLanguage } from "agentflow";
+import { registerLanguage } from "agentflow-ui";
 
 registerLanguage(julia, "julia", ".jl");
 
@@ -164,7 +164,7 @@ const SNIPPET_MYLANG_GRAMMAR = `// Write a grammar for a language hljs doesn't k
 // Grammars are a small object — keywords, regex modes, etc.
 // See https://highlightjs.readthedocs.io/en/latest/language-guide.html
 
-import { registerLanguage, type LanguageFn } from "agentflow";
+import { registerLanguage, type LanguageFn } from "agentflow-ui";
 
 const mylangGrammar: LanguageFn = (hljs) => ({
   name: "mylang",
@@ -188,7 +188,7 @@ registerLanguage(mylangGrammar, "mylang", ".mylang", ".myl");
 const SNIPPET_BYO = `// Bring your own highlighter — bypass hljs entirely.
 // CodeDisplay's \`lines\` prop accepts pre-tokenized HTML per line.
 
-import { CodeDisplay, type HighlightedLine } from "agentflow";
+import { CodeDisplay, type HighlightedLine } from "agentflow-ui";
 
 function tokenizeWithShiki(code: string, lang: string): HighlightedLine[] {
   // ...your shiki / prism / lezer / custom tokenizer here...

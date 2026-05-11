@@ -11,7 +11,7 @@ box. This doc shows how to write your own.
 ## The contract
 
 ```ts
-import type { MessageAdapter, ConversationEvent } from "agentflow";
+import type { MessageAdapter, ConversationEvent } from "agentflow-ui";
 
 interface MessageAdapter<TMessage> {
   toEvents(messages: TMessage[]): ConversationEvent[];
@@ -32,7 +32,7 @@ Two choices: direct function, or a factory bound to options.
 ### Direct function
 
 ```ts
-import type { ConversationEvent, UserMessageEvent, AssistantMessageEvent } from "agentflow";
+import type { ConversationEvent, UserMessageEvent, AssistantMessageEvent } from "agentflow-ui";
 
 interface MyMessage {
   speaker: "human" | "agent";
@@ -67,7 +67,7 @@ import {
   createAdapterContext,
   durationFromContext,
   safeParseJson,
-} from "agentflow/adapters";
+} from "agentflow-ui/adapters";
 
 export interface MyAdapterOptions extends AdapterOptions {
   /** Treat the trailing message as still-streaming. */
@@ -175,7 +175,7 @@ If your tool name isn't in the default registry, write a [tool variant](./custom
   "I produced no output" rather than "I failed". Don't blindly map exit code
   to `isError` — use the `inferIsError` helper:
   ```ts
-  import { inferIsError } from "agentflow";
+  import { inferIsError } from "agentflow-ui";
   // ripgrep: exit 0 matched, exit 1 no matches, exit 2+ real error.
   isError: inferIsError(rgOutput, { okExitCodes: [0, 1] }),
   ```
