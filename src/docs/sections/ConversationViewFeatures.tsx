@@ -16,10 +16,59 @@ import { Example, Prose, Section } from "../components/Example";
 const t0 = Date.parse("2026-05-04T12:00:00Z");
 
 function buildBaseEvents(): ConversationEvent[] {
-  return openAIToEvents(conversation as OpenAIMessage[], {
+  const base = openAIToEvents(conversation as OpenAIMessage[], {
     startTime: t0,
     stepMs: 800,
   });
+  // Append a synthetic errored turn so the devtool Status → Failed filter has
+  // something to show. (The OpenAI fixture is all-success otherwise.)
+  const tail = base[base.length - 1]?.timestamp ?? t0;
+  const errSuite: ConversationEvent[] = [
+    {
+      id: "err-a-1",
+      type: "assistant_message",
+      status: "complete",
+      timestamp: tail + 800,
+      content: "Let me run the test suite to confirm.",
+      finishReason: "tool_calls",
+    },
+    {
+      id: "err-tc-1",
+      type: "tool_call",
+      status: "complete",
+      timestamp: tail + 900,
+      toolCallId: "call_test_1",
+      toolName: "bash",
+      input: { command: "npm test -- src/api/client.test.ts" },
+    },
+    {
+      id: "err-tr-1",
+      type: "tool_result",
+      status: "error",
+      timestamp: tail + 2_400,
+      toolCallId: "call_test_1",
+      durationMs: 1_487,
+      costUsd: 0.0042,
+      tokens: 318,
+      isError: true,
+      errorMessage:
+        "Test failed: expected fetch to retry on 503 but resolver returned undefined.",
+      output: {
+        exit_code: 1,
+        stderr:
+          "● client › retries on 5xx\n  expected: <Response 200>\n  received: undefined\n",
+      },
+    },
+    {
+      id: "err-a-2",
+      type: "assistant_message",
+      status: "complete",
+      timestamp: tail + 2_500,
+      content:
+        "The retry wrapper isn't returning the inner promise — adding `return` to `this.retry(...)` should fix it.",
+    },
+  ];
+  return [...base, ...errSuite];
 }
 
 const FEATURE_CODE = `<ConversationView
