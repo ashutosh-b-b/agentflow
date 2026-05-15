@@ -5,6 +5,19 @@ All notable changes to `agentflow-ui` are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.2] - 2026-05-15
+
+### Changed
+
+- **Tool-card header stats unified.** Duration now uses
+  `.ar-tool-stat.duration` instead of the generic `.meta` class, matching
+  `.ar-tool-stat.cost` and `.ar-tool-stat.tokens`. All three siblings now
+  wear the same pill styling (border, background, padding) so the metric
+  row reads as a uniform group. Consumers who previously targeted
+  `.ar-tool-head .meta` in their own theme overrides should switch to
+  `.ar-tool-head .ar-tool-stat.duration`. (The `.meta` class still exists
+  elsewhere in the library — only the tool-card duration span moved.)
+
 ## [0.2.1] - 2026-05-15
 
 ### Fixed
@@ -99,6 +112,7 @@ All additions are additive and backward-compatible. No breaking changes.
   `[data-theme]`.
 - `registerLanguage()` runtime helper for custom syntax highlighting.
 
+[0.2.2]: https://github.com/ashutosh-b-b/agentflow/releases/tag/v0.2.2
 [0.2.1]: https://github.com/ashutosh-b-b/agentflow/releases/tag/v0.2.1
 [0.2.0]: https://github.com/ashutosh-b-b/agentflow/releases/tag/v0.2.0
 [0.1.0]: https://github.com/ashutosh-b-b/agentflow/releases/tag/v0.1.0

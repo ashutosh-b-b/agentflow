@@ -1,6 +1,6 @@
 {
   "name": "agentflow-ui",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Composable React components for rendering agentic conversations — chat, devtool, inspector views with multi-provider adapters.",
   "keywords": [
     "react",
