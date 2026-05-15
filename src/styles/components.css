@@ -883,10 +883,10 @@
 .ar-devtool-side {
   background: var(--bg-2);
   border-right: 1px solid var(--border-1);
-  padding: 14px 16px;
+  padding: 12px 12px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
   overflow-y: auto;
   min-height: 0;
 }
@@ -906,11 +906,11 @@
 }
 .ar-devtool-thread {
   max-width: 920px;
-  margin: 0 auto;
-  padding: 28px 32px;
+  margin: 0;
+  padding: 16px 20px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
 }
 .ar-devtool-thread > * { flex-shrink: 0; }
 
