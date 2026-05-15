@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, type ComponentType } from "react";
+import { useEffect, useMemo, useRef, useState, type ComponentType } from "react";
 import type {
   AssistantMessageEvent,
   ConversationEvent,
@@ -352,47 +352,47 @@ function renderSecondaryBody(
  * messages show without chat-bubble alignment, system messages visible,
  * everything default-expanded.
  * --------------------------------------------------------------------- */
-/* The event categories the devtool view exposes as filter toggles. The view
- * groups tool_call into assistant_message (via the ToolCallsBundle), so the
- * two share a single filter. */
-const DEVTOOL_FILTER_KEYS = [
-  "user_message",
-  "assistant_message",
-  "tool_result",
-  "thinking",
-  "compaction",
-  "system_message",
-  "error",
-] as const;
-type DevtoolFilterKey = (typeof DEVTOOL_FILTER_KEYS)[number];
 
-const DEVTOOL_FILTER_LABEL: Record<DevtoolFilterKey, string> = {
-  user_message: "user",
-  assistant_message: "assistant",
-  tool_result: "tool result",
-  thinking: "thinking",
-  compaction: "compaction",
-  system_message: "system",
-  error: "error",
-};
-
-function categoryFor(item: ChatItem): DevtoolFilterKey | "other" {
-  switch (item.kind) {
-    case "user": return "user_message";
-    case "assistant": return "assistant_message";
-    case "tool_result": return "tool_result";
-    case "orphan_tool_call": return "assistant_message";
-    case "orphan_tool_result": return "tool_result";
-    case "passthrough": {
-      switch (item.event.type) {
-        case "thinking": return "thinking";
-        case "compaction": return "compaction";
-        case "system_message": return "system_message";
-        case "error": return "error";
-        default: return "other";
-      }
+/** Distinct tool names appearing across this thread's items. */
+function distinctToolNames(items: ChatItem[]): string[] {
+  const set = new Set<string>();
+  for (const item of items) {
+    switch (item.kind) {
+      case "tool_result":
+        set.add(item.call.toolName);
+        break;
+      case "orphan_tool_call":
+        set.add(item.call.toolName);
+        break;
+      case "assistant":
+        for (const tc of item.toolCalls) set.add(tc.toolName);
+        break;
     }
-    default: return "other";
+  }
+  return [...set].sort();
+}
+
+/** Tool name attached to a top-level tool item (used for the Tool Messages filter). */
+function toolNameOf(item: ChatItem): string | null {
+  switch (item.kind) {
+    case "tool_result": return item.call.toolName;
+    case "orphan_tool_call": return item.call.toolName;
+    default: return null;
+  }
+}
+
+function isFailedItem(item: ChatItem): boolean {
+  switch (item.kind) {
+    case "tool_result":
+      return item.result.isError === true || item.result.status === "error";
+    case "orphan_tool_result":
+      return item.result.isError === true || item.result.status === "error";
+    case "passthrough":
+      return item.event.type === "error" || item.event.status === "error";
+    case "assistant":
+      return item.event.status === "error";
+    default:
+      return false;
   }
 }
 
@@ -411,44 +411,70 @@ function DevtoolView({
 }) {
   const { atBottom, scrollToBottom } = useAutoScroll(scrollRef, items.length);
 
+  const toolNames = useMemo(() => distinctToolNames(items), [items]);
+
   const counts = useMemo(() => {
-    const out: Record<DevtoolFilterKey, number> = {
-      user_message: 0,
-      assistant_message: 0,
-      tool_result: 0,
-      thinking: 0,
-      compaction: 0,
-      system_message: 0,
-      error: 0,
+    const out = {
+      user: 0,
+      assistant: 0,
+      toolByName: {} as Record<string, number>,
+      failed: 0,
     };
     for (const item of items) {
-      const k = categoryFor(item);
-      if (k !== "other") out[k]++;
+      if (item.kind === "user") out.user++;
+      if (item.kind === "assistant") out.assistant++;
+      const name = toolNameOf(item);
+      if (name) out.toolByName[name] = (out.toolByName[name] ?? 0) + 1;
+      if (isFailedItem(item)) out.failed++;
     }
     return out;
   }, [items]);
 
-  // Only show filter buttons for categories that actually appear in the
-  // conversation — an empty list of "thinking · 0 · ⬜" rows is just noise.
-  const visibleFilters = DEVTOOL_FILTER_KEYS.filter((k) => counts[k] > 0);
-
-  const [enabled, setEnabled] = useState<Set<DevtoolFilterKey>>(
-    () => new Set(DEVTOOL_FILTER_KEYS)
+  const [enabledUser, setEnabledUser] = useState(true);
+  const [enabledAssistant, setEnabledAssistant] = useState(true);
+  const [enabledTools, setEnabledTools] = useState<Set<string>>(
+    () => new Set(toolNames)
   );
+  // Tri-state status filter — exactly one active at a time.
+  const [statusFilter, setStatusFilter] = useState<"all" | "passed" | "failed">("all");
+
+  // Keep newly-observed tool names enabled by default — preserves the user's
+  // existing disabled set across streaming additions.
+  useEffect(() => {
+    setEnabledTools((prev) => {
+      let changed = false;
+      const next = new Set(prev);
+      for (const n of toolNames) {
+        if (!next.has(n) && !prev.has(n)) {
+          // Brand-new name we haven't seen: enable.
+          next.add(n);
+          changed = true;
+        }
+      }
+      return changed ? next : prev;
+    });
+  }, [toolNames]);
 
   const visible = useMemo(
-    () => items.filter((item) => {
-      const k = categoryFor(item);
-      return k === "other" || enabled.has(k);
-    }),
-    [items, enabled]
+    () =>
+      items.filter((item) => {
+        if (item.kind === "user" && !enabledUser) return false;
+        if (item.kind === "assistant" && !enabledAssistant) return false;
+        const name = toolNameOf(item);
+        if (name && !enabledTools.has(name)) return false;
+        const failed = isFailedItem(item);
+        if (statusFilter === "passed" && failed) return false;
+        if (statusFilter === "failed" && !failed) return false;
+        return true;
+      }),
+    [items, enabledUser, enabledAssistant, enabledTools, statusFilter]
   );
 
-  const toggle = (k: DevtoolFilterKey) => {
-    setEnabled((prev) => {
+  const toggleTool = (name: string) => {
+    setEnabledTools((prev) => {
       const next = new Set(prev);
-      if (next.has(k)) next.delete(k);
-      else next.add(k);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
       return next;
     });
   };
@@ -457,23 +483,68 @@ function DevtoolView({
     <div className="ar-devtool-shell">
       <aside className="ar-devtool-side">
         <section>
-          <h5>Filters</h5>
-          <div className="ar-filters">
-            {visibleFilters.map((k) => {
-              const on = enabled.has(k);
-              return (
-                <button
-                  key={k}
-                  type="button"
-                  className="ar-filt"
-                  onClick={() => toggle(k)}
-                >
-                  <span className={`ck${on ? " on" : ""}`}>{on ? "✓" : ""}</span>
-                  <span>{DEVTOOL_FILTER_LABEL[k]}</span>
-                  <span className="count">{counts[k]}</span>
-                </button>
-              );
-            })}
+          <h5>Filter</h5>
+          <div className="ar-ftree">
+            <div className="ar-fgrp">
+              <div className="ar-fgrp-h">Messages</div>
+              <div className="ar-fgrp-c">
+                {counts.user > 0 && (
+                  <FilterRow
+                    label="User Message"
+                    count={counts.user}
+                    on={enabledUser}
+                    onToggle={() => setEnabledUser((v) => !v)}
+                  />
+                )}
+                {counts.assistant > 0 && (
+                  <FilterRow
+                    label="Assistant Message"
+                    count={counts.assistant}
+                    on={enabledAssistant}
+                    onToggle={() => setEnabledAssistant((v) => !v)}
+                  />
+                )}
+                {toolNames.length > 0 && (
+                  <div className="ar-fsub">
+                    <div className="ar-fsub-h">Tool Messages</div>
+                    <div className="ar-fgrp-c">
+                      {toolNames.map((name) => (
+                        <FilterRow
+                          key={name}
+                          label={name}
+                          count={counts.toolByName[name] ?? 0}
+                          on={enabledTools.has(name)}
+                          onToggle={() => toggleTool(name)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="ar-fgrp">
+              <div className="ar-fgrp-h">Status</div>
+              <div className="ar-fgrp-c">
+                <FilterRow
+                  label="All"
+                  count={items.length}
+                  on={statusFilter === "all"}
+                  onToggle={() => setStatusFilter("all")}
+                />
+                <FilterRow
+                  label="Passed"
+                  count={items.length - counts.failed}
+                  on={statusFilter === "passed"}
+                  onToggle={() => setStatusFilter("passed")}
+                />
+                <FilterRow
+                  label="Failed"
+                  count={counts.failed}
+                  on={statusFilter === "failed"}
+                  onToggle={() => setStatusFilter("failed")}
+                />
+              </div>
+            </div>
           </div>
         </section>
       </aside>
@@ -492,6 +563,26 @@ function DevtoolView({
       </main>
       <ScrollToBottom visible={!atBottom} onClick={scrollToBottom} />
     </div>
+  );
+}
+
+function FilterRow({
+  label,
+  count,
+  on,
+  onToggle,
+}: {
+  label: string;
+  count: number;
+  on: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <button type="button" className="ar-filt" onClick={onToggle} aria-pressed={on}>
+      <span className={`ck${on ? " on" : ""}`}>{on ? "✓" : ""}</span>
+      <span className="ar-filt-label">{label}</span>
+      <span className="count">{count}</span>
+    </button>
   );
 }
 

@@ -976,6 +976,47 @@
 }
 
 .ar-filters { display: flex; flex-direction: column; gap: 4px; }
+
+/* Hierarchical filter tree used by the devtool sidebar — wireframe:
+   Filter
+     Messages
+       User Message
+       Assistant Message
+       Tool Messages
+         <tool name>
+     Status
+       Failed
+*/
+.ar-ftree { display: flex; flex-direction: column; gap: 10px; }
+.ar-fgrp { display: flex; flex-direction: column; gap: 2px; }
+.ar-fgrp-h {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-1);
+  font-weight: 600;
+  padding: 2px 0;
+}
+.ar-fgrp-c {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding-left: 10px;
+}
+.ar-fsub { display: flex; flex-direction: column; gap: 2px; }
+.ar-fsub-h {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-2);
+  font-weight: 500;
+  padding: 4px 0 2px;
+}
+.ar-filt-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .ar-filt {
   display: flex;
   align-items: center;
