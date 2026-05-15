@@ -5,6 +5,20 @@ All notable changes to `agentflow-ui` are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2026-05-15
+
+### Fixed
+
+- **Tool-card header chips drifted off-axis from the duration.** With
+  `costUsd` + `tokens` + `durationMs` all set, the `.ar-tool-stat` pills and
+  `.meta` span sat in the same flex row with `align-items: center`, but each
+  centered around its own internal midline because `.meta` inherited the
+  parent's `line-height` (~1.5) while the chip used `inline-flex + padding +
+  border` with no `line-height` reset. Normalized `line-height: 1` on both
+  siblings and gave `.meta` `display: inline-flex; align-items: center` so
+  every header child uses a common cross-axis metric. Chip padding eased
+  from `1px 6px` → `2px 7px` for breathing room.
+
 ## [0.2.0] - 2026-05-15
 
 ### Added
@@ -85,5 +99,6 @@ All additions are additive and backward-compatible. No breaking changes.
   `[data-theme]`.
 - `registerLanguage()` runtime helper for custom syntax highlighting.
 
+[0.2.1]: https://github.com/ashutosh-b-b/agentflow/releases/tag/v0.2.1
 [0.2.0]: https://github.com/ashutosh-b-b/agentflow/releases/tag/v0.2.0
 [0.1.0]: https://github.com/ashutosh-b-b/agentflow/releases/tag/v0.1.0
