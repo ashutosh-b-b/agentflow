@@ -101,6 +101,17 @@ export interface ToolResultEvent extends BaseEvent {
   isError?: boolean;
   errorMessage?: string;
   durationMs?: number;
+  /**
+   * Cost incurred by this tool call, in USD. When set, surfaces in the
+   * ToolDisplay header next to the duration. Useful for LLM-as-tool or any
+   * tool with a known per-call price.
+   */
+  costUsd?: number;
+  /**
+   * Token count consumed by this tool call. When set, surfaces in the
+   * ToolDisplay header next to the duration / cost.
+   */
+  tokens?: number;
 }
 
 export interface CompactionEvent extends BaseEvent {

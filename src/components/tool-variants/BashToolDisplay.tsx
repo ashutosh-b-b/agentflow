@@ -51,6 +51,8 @@ export function BashToolDisplay({
       name={name}
       status={effectiveStatus}
       durationMs={durationMs}
+      costUsd={event.costUsd}
+      tokens={event.tokens}
       summary={command}
       permission={event.permission}
       toolCallId={event.toolCallId}

@@ -56,6 +56,8 @@ export function ToolCallResultDisplay({
     toolCallId: call.toolCallId,
     status: statusFromResult(result),
     durationMs: result.durationMs,
+    costUsd: result.costUsd,
+    tokens: result.tokens,
     input: call.input,
     inputRaw: call.inputRaw,
     output: result.output,

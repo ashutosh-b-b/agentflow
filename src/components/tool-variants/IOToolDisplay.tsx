@@ -176,6 +176,8 @@ export function IOToolDisplay({
       name={name}
       status={status}
       durationMs={durationMs}
+      costUsd={event.costUsd}
+      tokens={event.tokens}
       summary={summaryFor(name, path, replacements)}
       permission={event.permission}
       toolCallId={event.toolCallId}

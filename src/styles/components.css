@@ -107,6 +107,27 @@
   color: var(--fg-3);
   flex: 0 0 auto;
 }
+/* Per-tool stat chips (cost / tokens) shown next to duration in the header. */
+.ar-tool-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--fg-3);
+  flex: 0 0 auto;
+  padding: 1px 6px;
+  border: 1px solid var(--border-1);
+  border-radius: 999px;
+  background: var(--bg-2);
+}
+.ar-tool-stat.cost { color: var(--fg-2); }
+.ar-tool-stat.tokens { color: var(--fg-2); }
+.ar-tool.error .ar-tool-stat,
+.ar-tool-head.error .ar-tool-stat {
+  color: var(--danger-soft-fg);
+  border-color: color-mix(in srgb, var(--danger) 35%, transparent);
+}
 .ar-tool-head .chev {
   color: var(--fg-3);
   transition: transform var(--dur-fast) var(--ease-out);

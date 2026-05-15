@@ -16,6 +16,10 @@ export interface ToolEventLike<Input = unknown, Output = unknown> {
   toolCallId?: string;
   status: ToolStatus;
   durationMs?: number;
+  /** Cost in USD, forwarded to ToolDisplay's header chip. */
+  costUsd?: number;
+  /** Token count, forwarded to ToolDisplay's header chip. */
+  tokens?: number;
   input: Input;
   /** Raw partial JSON during streaming — variants can ignore. */
   inputRaw?: string;

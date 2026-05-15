@@ -16,6 +16,10 @@ export interface ToolDisplayProps {
   name: string;
   status: ToolStatus;
   durationMs?: number;
+  /** Cost in USD — rendered as a small chip in the header when set. */
+  costUsd?: number;
+  /** Token count — rendered as a small chip in the header when set. */
+  tokens?: number;
   /** One-line summary in the collapsed header. Slot override: <ToolDisplay.Summary>. */
   summary?: ReactNode;
   /** Slot override: <ToolDisplay.Header>. Replaces the entire default header. */
@@ -68,6 +72,24 @@ function formatDuration(ms?: number, status?: ToolStatus): string | null {
   if (ms == null) return null;
   if (ms < 1000) return `${ms}ms`;
   return `${(ms / 1000).toFixed(1)}s`;
+}
+
+/** Cost is in USD — render with a precision that scales with magnitude so
+ *  $0.0001 calls don't display as "$0.00". */
+function formatCostUsd(usd?: number): string | null {
+  if (usd == null || !Number.isFinite(usd)) return null;
+  if (usd === 0) return "$0";
+  const abs = Math.abs(usd);
+  if (abs >= 1) return `$${usd.toFixed(2)}`;
+  if (abs >= 0.01) return `$${usd.toFixed(3)}`;
+  if (abs >= 0.0001) return `$${usd.toFixed(4)}`;
+  return usd > 0 ? "<$0.0001" : ">-$0.0001";
+}
+
+/** Token count formatted with thousands separators + " tok" suffix. */
+function formatTokens(tokens?: number): string | null {
+  if (tokens == null || !Number.isFinite(tokens)) return null;
+  return `${tokens.toLocaleString()} tok`;
 }
 
 /* --------------------------------------------------------------------- *
@@ -209,6 +231,8 @@ function ToolDisplayImpl(props: ToolDisplayProps) {
     name,
     status,
     durationMs,
+    costUsd,
+    tokens,
     summary,
     header,
     defaultExpanded,
@@ -258,6 +282,8 @@ function ToolDisplayImpl(props: ToolDisplayProps) {
   const bodyNode = bodySlot?.props.children ?? (looseChildren.length > 0 ? looseChildren : null);
 
   const durationLabel = formatDuration(durationMs, status);
+  const costLabel = formatCostUsd(costUsd);
+  const tokensLabel = formatTokens(tokens);
   const isError = status === "error";
 
   const showPermissionActions =
@@ -289,6 +315,16 @@ function ToolDisplayImpl(props: ToolDisplayProps) {
       {permission && permission !== "allowed" && (
         <span className={`ar-tool-perm-badge perm-${permission}`}>
           {permission === "pending" ? "needs approval" : "denied"}
+        </span>
+      )}
+      {tokensLabel && (
+        <span className="ar-tool-stat tokens" title="tokens used">
+          {tokensLabel}
+        </span>
+      )}
+      {costLabel && (
+        <span className="ar-tool-stat cost" title="cost (USD)">
+          {costLabel}
         </span>
       )}
       {durationLabel && <span className="meta">{durationLabel}</span>}

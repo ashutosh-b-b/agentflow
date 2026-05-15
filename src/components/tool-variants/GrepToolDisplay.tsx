@@ -149,6 +149,8 @@ export function GrepToolDisplay({
       name={name}
       status={status}
       durationMs={durationMs}
+      costUsd={event.costUsd}
+      tokens={event.tokens}
       summary={summaryFor(pattern, searchPath, output, mode, matches)}
       permission={event.permission}
       toolCallId={event.toolCallId}

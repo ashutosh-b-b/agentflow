@@ -86,6 +86,8 @@ export function WebSearchToolDisplay({
       name={name}
       status={status}
       durationMs={durationMs}
+      costUsd={event.costUsd}
+      tokens={event.tokens}
       summary={summary}
       permission={event.permission}
       toolCallId={event.toolCallId}
