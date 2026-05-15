@@ -101,21 +101,12 @@
   min-width: 0;
   font-size: var(--fs-12);
 }
-.ar-tool-head .meta {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--font-mono);
-  font-size: var(--fs-12);
-  line-height: 1;
-  color: var(--fg-3);
-  flex: 0 0 auto;
-}
-/* Per-tool stat chips (cost / tokens) shown next to duration in the header.
- * `line-height: 1` here AND on `.meta` keeps every header sibling on a
- * common cross-axis metric — without it `.meta`'s inherited line-height
- * inflates its box and `align-items: center` ends up centering each child
- * around different internal midlines (visible drift when costUsd + tokens
- * + durationMs are all set). */
+/* Header stat trio — `.ar-tool-stat.duration`, `.ar-tool-stat.cost`,
+ * `.ar-tool-stat.tokens`. All three share the same pill styling so the
+ * three siblings read as a uniform metric row. `line-height: 1` is
+ * essential — without it a bare inherited line-height would inflate the
+ * box and visually offset the children from each other under
+ * `align-items: center`. */
 .ar-tool-stat {
   display: inline-flex;
   align-items: center;
@@ -123,15 +114,13 @@
   font-family: var(--font-mono);
   font-size: var(--fs-12);
   line-height: 1;
-  color: var(--fg-3);
+  color: var(--fg-2);
   flex: 0 0 auto;
   padding: 2px 7px;
   border: 1px solid var(--border-1);
   border-radius: 999px;
   background: var(--bg-2);
 }
-.ar-tool-stat.cost { color: var(--fg-2); }
-.ar-tool-stat.tokens { color: var(--fg-2); }
 .ar-tool.error .ar-tool-stat,
 .ar-tool-head.error .ar-tool-stat {
   color: var(--danger-soft-fg);
@@ -209,10 +198,8 @@
 .ar-tool.error .ar-tool-head { background: var(--danger-soft); }
 .ar-tool-head.error .tname,
 .ar-tool-head.error .summary,
-.ar-tool-head.error .meta,
 .ar-tool.error .ar-tool-head .tname,
-.ar-tool.error .ar-tool-head .summary,
-.ar-tool.error .ar-tool-head .meta { color: var(--danger-soft-fg); }
+.ar-tool.error .ar-tool-head .summary { color: var(--danger-soft-fg); }
 
 .ar-tool-body {
   padding: 12px 14px 14px;

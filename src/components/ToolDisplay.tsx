@@ -327,7 +327,11 @@ function ToolDisplayImpl(props: ToolDisplayProps) {
           {costLabel}
         </span>
       )}
-      {durationLabel && <span className="meta">{durationLabel}</span>}
+      {durationLabel && (
+        <span className="ar-tool-stat duration" title="duration">
+          {durationLabel}
+        </span>
+      )}
       {showPermissionActions && (
         <span className="ar-tool-perm-actions" onClick={(e) => e.stopPropagation()}>
           {typeof onDeny === "function" && (
