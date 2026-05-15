@@ -81,6 +81,8 @@ const EVENTS: ConversationEvent[] = [
 function JuliaToolDisplay({
   event,
   mode = "merged",
+  inputCollapsible = true,
+  outputCollapsible = true,
   ...rest
 }: ToolVariantProps<JuliaInput, JuliaOutput>) {
   const { name, status, durationMs, input, output, isError, errorMessage } = event;
@@ -105,7 +107,7 @@ function JuliaToolDisplay({
             value={input.code}
             language="julia"
             copyable
-            collapsible
+            collapsible={inputCollapsible}
             collapsedHeight={200}
           />
         </ToolDisplay.Section>
@@ -132,6 +134,8 @@ function JuliaToolDisplay({
             language="julia"
             showLineNumbers={false}
             copyable={false}
+            collapsible={outputCollapsible}
+            collapsedHeight={200}
           />
         </ToolDisplay.Section>
       )}

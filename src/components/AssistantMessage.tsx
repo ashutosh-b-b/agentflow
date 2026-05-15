@@ -49,6 +49,12 @@ export interface AssistantMessageProps {
    * own collapsed/expanded state. Undefined = component-internal default.
    */
   toolRequestDefaultExpanded?: boolean;
+  /**
+   * Forwarded as `inputCollapsible` to each inline `<ToolCallRequestDisplay>` —
+   * controls the "Show more" toggle inside the input block, not the outer
+   * chevron. Default `true`.
+   */
+  toolInputCollapsible?: boolean;
   className?: string;
 }
 
@@ -66,6 +72,7 @@ export function AssistantMessage({
   showMeta = true,
   variant = "bubble",
   toolRequestDefaultExpanded,
+  toolInputCollapsible = true,
   className,
 }: AssistantMessageProps) {
   const streaming = event.status === "streaming";
@@ -109,6 +116,7 @@ export function AssistantMessage({
             toolCallDisplay={toolCallDisplay}
             toolVariants={toolVariants}
             toolRequestDefaultExpanded={toolRequestDefaultExpanded}
+            toolInputCollapsible={toolInputCollapsible}
           />
         ) : (
           <BubbleBody
@@ -117,6 +125,7 @@ export function AssistantMessage({
             toolCallDisplay={toolCallDisplay}
             toolVariants={toolVariants}
             toolRequestDefaultExpanded={toolRequestDefaultExpanded}
+            toolInputCollapsible={toolInputCollapsible}
           />
         )}
       </div>
@@ -130,6 +139,7 @@ interface BodyProps {
   toolCallDisplay: ToolCallDisplayMode;
   toolVariants?: Record<string, ToolVariantComponent<unknown, unknown>>;
   toolRequestDefaultExpanded?: boolean;
+  toolInputCollapsible?: boolean;
 }
 
 /* ----- bubble (chat mode) ----- */
@@ -139,6 +149,7 @@ function BubbleBody({
   toolCallDisplay,
   toolVariants,
   toolRequestDefaultExpanded,
+  toolInputCollapsible,
 }: BodyProps) {
   return (
     <>
@@ -154,6 +165,7 @@ function BubbleBody({
               mode={toolCallDisplay}
               variants={toolVariants}
               defaultExpanded={toolRequestDefaultExpanded}
+              inputCollapsible={toolInputCollapsible}
             />
           ))}
         </div>
@@ -167,11 +179,13 @@ function ToolCallView({
   mode,
   variants,
   defaultExpanded,
+  inputCollapsible,
 }: {
   call: ToolCallEvent;
   mode: Exclude<ToolCallDisplayMode, "none">;
   variants?: Record<string, ToolVariantComponent<unknown, unknown>>;
   defaultExpanded?: boolean;
+  inputCollapsible?: boolean;
 }) {
   if (mode === "name-only") {
     const dotClass =
@@ -194,6 +208,7 @@ function ToolCallView({
       event={call}
       variants={variants}
       defaultExpanded={defaultExpanded}
+      inputCollapsible={inputCollapsible}
     />
   );
 }
@@ -223,6 +238,7 @@ function FlatBody({
   toolCallDisplay,
   toolVariants,
   toolRequestDefaultExpanded,
+  toolInputCollapsible,
 }: BodyProps) {
   const showBundle = toolCalls && toolCalls.length > 0 && toolCallDisplay !== "none";
   return (
@@ -240,6 +256,7 @@ function FlatBody({
           toolCalls={toolCalls!}
           toolVariants={toolVariants}
           defaultExpanded={toolRequestDefaultExpanded ?? false}
+          inputCollapsible={toolInputCollapsible}
         />
       )}
     </div>

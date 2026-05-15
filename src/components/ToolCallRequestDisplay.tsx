@@ -18,6 +18,11 @@ export interface ToolCallRequestDisplayProps {
   defaultExpanded?: boolean;
   expanded?: boolean;
   onExpandedChange?: (expanded: boolean) => void;
+  /**
+   * Forwarded to the variant — controls the "Show more" toggle inside the
+   * input block. Default `true`. (Does not affect the outer card chevron.)
+   */
+  inputCollapsible?: boolean;
   bodyMaxHeight?: number;
   className?: string;
 }

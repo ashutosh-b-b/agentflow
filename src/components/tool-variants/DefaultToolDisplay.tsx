@@ -5,7 +5,13 @@ import type { ToolVariantProps } from "./types";
 
 /** Fallback variant — JSON dumps for input + output. Used when the registry
  *  has no entry for `event.name`. */
-export function DefaultToolDisplay({ event, mode = "merged", ...rest }: ToolVariantProps) {
+export function DefaultToolDisplay({
+  event,
+  mode = "merged",
+  inputCollapsible = true,
+  outputCollapsible = true,
+  ...rest
+}: ToolVariantProps) {
   const { name, status, durationMs, input, output, isError, errorMessage } = event;
 
   const showInput = mode === "request" || mode === "merged";
@@ -38,7 +44,7 @@ export function DefaultToolDisplay({ event, mode = "merged", ...rest }: ToolVari
             showLineNumbers={false}
             copyable={false}
             maxHeight={200}
-            collapsible
+            collapsible={inputCollapsible}
             collapsedHeight={120}
           />
         </ToolDisplay.Section>
@@ -55,7 +61,7 @@ export function DefaultToolDisplay({ event, mode = "merged", ...rest }: ToolVari
                 showLineNumbers={false}
                 copyable={false}
                 maxHeight={300}
-                collapsible
+                collapsible={outputCollapsible}
                 collapsedHeight={200}
               />
             </ToolDisplay.Section>

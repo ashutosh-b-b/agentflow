@@ -102,6 +102,19 @@ export interface ConversationViewProps {
    * Pending-permission tool calls always auto-expand regardless.
    */
   toolResultDefaultExpanded?: boolean;
+  /**
+   * Show the "Show more / Show less" toggle inside the **input** block of tool
+   * cards (both request and result). Default `true`. When `false`, the input
+   * content renders in full with no inner clamp — the outer card chevron is
+   * unaffected.
+   */
+  expandToolInputBtn?: boolean;
+  /**
+   * Show the "Show more / Show less" toggle inside the **output** block of the
+   * result card. Default `true`. When `false`, the output content renders in
+   * full with no inner clamp — the outer card chevron is unaffected.
+   */
+  expandToolOutputBtn?: boolean;
   /** Called when the user clicks Allow on a `permission: 'pending'` tool call. */
   onAllowToolCall?: (toolCallId: string) => void;
   /** Called when the user clicks Deny on a `permission: 'pending'` tool call. */
@@ -216,6 +229,8 @@ function renderChatItem(
     expansion.toolRequest !== undefined ? expansion.toolRequest : mode === "devtool";
   const resultExpanded =
     expansion.toolResult !== undefined ? expansion.toolResult : mode === "devtool";
+  const inputCollapsible = expansion.inputCollapsible ?? true;
+  const outputCollapsible = expansion.outputCollapsible ?? true;
   switch (item.kind) {
     case "user":
       return (
@@ -242,6 +257,7 @@ function renderChatItem(
             variant={mode === "devtool" ? "flat" : undefined}
             name={mode === "devtool" ? "assistant" : undefined}
             toolRequestDefaultExpanded={expansion.toolRequest}
+            toolInputCollapsible={inputCollapsible}
           />
         </EventMatchWrapper>
       );
@@ -258,6 +274,8 @@ function renderChatItem(
             result={item.result}
             variants={toolVariants}
             defaultExpanded={resultExpanded}
+            inputCollapsible={inputCollapsible}
+            outputCollapsible={outputCollapsible}
           />
         </EventMatchWrapper>
       );
@@ -268,6 +286,7 @@ function renderChatItem(
             event={item.call}
             variants={toolVariants}
             defaultExpanded={requestExpanded}
+            inputCollapsible={inputCollapsible}
           />
         </EventMatchWrapper>
       );
@@ -730,6 +749,10 @@ export interface ExpansionDefaults {
   toolRequest?: boolean;
   /** Override default expansion for ToolCallResultDisplay cards. */
   toolResult?: boolean;
+  /** Whether the chevron toggle is shown on tool-request cards. Default true. */
+  inputCollapsible?: boolean;
+  /** Whether the chevron toggle is shown on tool-result cards. Default true. */
+  outputCollapsible?: boolean;
 }
 
 export function ConversationView({
@@ -741,6 +764,8 @@ export function ConversationView({
   showSearch = false,
   toolRequestDefaultExpanded,
   toolResultDefaultExpanded,
+  expandToolInputBtn = true,
+  expandToolOutputBtn = true,
   onAllowToolCall,
   onDenyToolCall,
   className,
@@ -748,6 +773,8 @@ export function ConversationView({
   const expansion: ExpansionDefaults = {
     toolRequest: toolRequestDefaultExpanded,
     toolResult: toolResultDefaultExpanded,
+    inputCollapsible: expandToolInputBtn,
+    outputCollapsible: expandToolOutputBtn,
   };
   const items = useMemo(() => buildChatItems(events), [events]);
   const title = metadata?.title ?? "conversation";

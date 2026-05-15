@@ -9,6 +9,11 @@ export interface ToolCallsBundleProps {
   toolVariants?: Record<string, ToolVariantComponent<unknown, unknown>>;
   /** Default false — collapsed shows compact one-liners per tool. */
   defaultExpanded?: boolean;
+  /**
+   * Forwarded to each inner `<ToolCallRequestDisplay>` — controls the
+   * "Show more" toggle inside the input block. Default `true`.
+   */
+  inputCollapsible?: boolean;
   /** Override the bundle's title. */
   label?: string;
   className?: string;
@@ -65,6 +70,7 @@ export function ToolCallsBundle({
   toolCalls,
   toolVariants,
   defaultExpanded = false,
+  inputCollapsible,
   label = "Tool Calls Requested",
   className,
 }: ToolCallsBundleProps) {
@@ -113,6 +119,7 @@ export function ToolCallsBundle({
               event={call}
               variants={toolVariants}
               defaultExpanded
+              inputCollapsible={inputCollapsible}
             />
           ))}
         </div>

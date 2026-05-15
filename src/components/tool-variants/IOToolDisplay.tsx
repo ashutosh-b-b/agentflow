@@ -49,7 +49,13 @@ function inputCoveredByHeader(input: IOInput, knownKeys: readonly string[]): boo
   return keys.every((k) => (knownKeys as readonly string[]).includes(k));
 }
 
-export function IOToolDisplay({ event, mode = "merged", ...rest }: ToolVariantProps<IOInput, IOOutput>) {
+export function IOToolDisplay({
+  event,
+  mode = "merged",
+  inputCollapsible = true,
+  outputCollapsible = true,
+  ...rest
+}: ToolVariantProps<IOInput, IOOutput>) {
   const { name, status, durationMs, input, output, isError, errorMessage } = event;
 
   // Canonical reads
@@ -83,6 +89,7 @@ export function IOToolDisplay({ event, mode = "merged", ...rest }: ToolVariantPr
             filename={path || undefined}
             language={lang}
             view="unified"
+            collapsible={inputCollapsible}
           />
         </ToolDisplay.Section>
       );
@@ -94,7 +101,7 @@ export function IOToolDisplay({ event, mode = "merged", ...rest }: ToolVariantPr
             value={writeContent}
             language={lang}
             filename={path || undefined}
-            collapsible
+            collapsible={inputCollapsible}
             collapsedHeight={200}
           />
         </ToolDisplay.Section>
@@ -154,7 +161,7 @@ export function IOToolDisplay({ event, mode = "merged", ...rest }: ToolVariantPr
           language={lang}
           filename={path || undefined}
           maxHeight={300}
-          collapsible
+          collapsible={outputCollapsible}
           collapsedHeight={200}
         />
       </ToolDisplay.Section>

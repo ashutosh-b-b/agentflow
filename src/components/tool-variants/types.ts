@@ -45,6 +45,18 @@ export interface ToolVariantProps<Input = unknown, Output = unknown> {
   defaultExpanded?: boolean;
   expanded?: boolean;
   onExpandedChange?: (expanded: boolean) => void;
+  /**
+   * Whether the "Show more / Show less" toggle inside the **input** block is
+   * available. Default `true`. When `false`, input renders in full with no
+   * inner clamp/expand control. (The outer tool card's chevron is unaffected.)
+   */
+  inputCollapsible?: boolean;
+  /**
+   * Whether the "Show more / Show less" toggle inside the **output** block is
+   * available. Default `true`. When `false`, output renders in full with no
+   * inner clamp/expand control. (The outer tool card's chevron is unaffected.)
+   */
+  outputCollapsible?: boolean;
   bodyMaxHeight?: number;
   className?: string;
 }

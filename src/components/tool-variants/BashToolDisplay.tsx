@@ -24,6 +24,7 @@ type BashOutput = Record<string, unknown>;
 export function BashToolDisplay({
   event,
   mode = "merged",
+  outputCollapsible = true,
   ...rest
 }: ToolVariantProps<BashInput, BashOutput>) {
   const { name, status, durationMs, input, output, isError, errorMessage } = event;
@@ -84,7 +85,7 @@ export function BashToolDisplay({
                   showLineNumbers={false}
                   copyable={false}
                   maxHeight={300}
-                  collapsible
+                  collapsible={outputCollapsible}
                   collapsedHeight={200}
                 />
               </ToolDisplay.Section>
@@ -98,7 +99,7 @@ export function BashToolDisplay({
                   copyable={false}
                   className="danger"
                   maxHeight={200}
-                  collapsible
+                  collapsible={outputCollapsible}
                   collapsedHeight={150}
                 />
               </ToolDisplay.Section>
